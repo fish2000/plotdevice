@@ -8,7 +8,7 @@ frameworks = join(dirname(dirname(getcwd())), 'Frameworks')
 gpuimage_libs = join(frameworks,  'GPUImage.framework', 'Versions', 'A')
 gpuimage_headers = join(gpuimage_libs, 'Headers')
 
-tensor = Extension('tensor',
+tensorlib = Extension('tensorlib',
     sources=[
         'module.m',
         'Filter.m'],
@@ -27,9 +27,9 @@ tensor = Extension('tensor',
         '-framework', 'CoreMedia',
         '-framework', 'GPUImage'])
 
-setup(name="tensor",
+setup(name="tensorlib",
        version="1.0",
        author="fish2k",
        description="GPU-based image processing",
-       ext_modules=[tensor],
+       ext_modules=[tensorlib],
        include_dirs=[gpuimage_headers])

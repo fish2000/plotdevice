@@ -1,11 +1,19 @@
 
-import objc
-from PyObjCTools import AppHelper
-import tensor
-for cls in ["Filter"]:
-    globals()[cls] = objc.lookUpClass(cls)
+from __future__ import print_function
 
-""" Wrapper classes around the Tensor image filters """
+from .rtclass import RTClass
+#from collections import defaultdict
+#from PyObjCTools import AppHelper
+
+import tensorlib
+
+# for cls in ["Filter"]:
+#     globals()[cls] = objc.lookUpClass(cls)
+
+class Filter(RTClass):
+    """ Wrapper class around a basic Tensor image filter """
+    pass
+
 
 # NSUnknownColorSpaceModel = -1,
 NSColorSpaceModels = (
@@ -30,6 +38,7 @@ class NOOp(object):
     def process(self, img):
         return img
 
+'''
 class ChannelFork(defaultdict):
     """ A processor wrapper that, for each image channel:
         - applies a channel-specific processor, or
@@ -135,6 +144,5 @@ class ChannelOverprinter(ChannelFork):
                 self[channel_name], ink])
         
         return super(ChannelOverprinter, clone).process(img)
-
-
-
+'''
+dir(tensorlib)

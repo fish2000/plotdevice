@@ -10,7 +10,7 @@
 
 @implementation Filter
 
-@synthesize inputImage, outputImage, filter;
+@synthesize filter;
 
 - (id)init {
     self = [super init];
@@ -21,10 +21,7 @@
 }
 
 - (NSImage *)process:(NSImage *)input {
-    /// - (NSImage *)imageByFilteringImage:(NSImage *)imageToFilter;
-    inputImage = input;
-    outputImage = [filter imageByFilteringImage:input];
-    return outputImage;
+    return [filter imageByFilteringImage:input];
 }
 
 @end

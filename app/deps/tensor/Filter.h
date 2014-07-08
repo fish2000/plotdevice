@@ -11,15 +11,10 @@
 #import <GPUImage/GPUImage.h>
 
 @interface Filter : NSObject {
-    NSImage *inputImage;
-    NSImage *outputImage;
     GPUImageHalftoneFilter *filter;
 }
 
-@property(nonatomic, copy) NSImage *inputImage;
-@property(nonatomic, copy) NSImage *outputImage;
 @property(nonatomic, retain) GPUImageHalftoneFilter *filter;
-
 
 - (id)init;
 - (NSImage *)process:(NSImage *)input;

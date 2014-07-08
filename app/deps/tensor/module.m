@@ -4,7 +4,7 @@ PyMethodDef methods[] = {
   { NULL, NULL },
 };
 
-void inittensor() {
-    (void)Py_InitModule("tensor", methods);
+PyMODINIT_FUNC inittensorlib() {
+    (void)Py_InitModule("tensorlib", methods);
 }
 
