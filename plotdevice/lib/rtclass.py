@@ -39,13 +39,13 @@ class RTClass(object):
         return super(RTClass, cls).__new__(cls, *args, **kwargs)
     
     def __getattr__(self, attr):
-        """ For unknown attributes ending in underscores,
-            look for their underscoreless counterpart before bailing. """
-        if attr.endswith(OBJ_COLON):
-            alt_attr = attr.rstrip(OBJ_COLON)
+        """ For unknown attributes that don't end in underscores,
+            look for their underscored counterpart before bailing. """
+        if not attr.endswith(OBJ_COLON):
+            alt_attr = attr + OBJ_COLON
             if hasattr(self, alt_attr):
                 return getattr(self, alt_attr)
-            raise AttributeError('%s (tried w/o underscore)' % attr)
+            raise AttributeError('%s (tried with underscore)' % attr)
         raise AttributeError(attr)
     
     def __repr__(self):
