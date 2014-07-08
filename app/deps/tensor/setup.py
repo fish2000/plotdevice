@@ -11,6 +11,7 @@ gpuimage_headers = join(gpuimage_libs, 'Headers')
 tensorlib = Extension('tensorlib',
     sources=[
         'module.m',
+        'FilterBase.m',
         'HalftoneFilter.m',
         'SepiaFilter.m'],
     extra_compile_args=[
