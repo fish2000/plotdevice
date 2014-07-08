@@ -10,13 +10,9 @@
 #import <AppKit/AppKit.h>
 #import <GPUImage/GPUImage.h>
 
-@interface HalftoneFilter : NSObject {
-    GPUImageHalftoneFilter *filter;
+#import "FilterBase.h"
+
+@interface HalftoneFilter : FilterBase {
 }
-
-@property(nonatomic, retain) GPUImageHalftoneFilter *filter;
-
-- (id)init;
-- (NSImage *)process:(NSImage *)input;
 
 @end

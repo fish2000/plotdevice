@@ -10,18 +10,12 @@
 
 @implementation SepiaFilter
 
-@synthesize filter;
-
 - (id)init {
     self = [super init];
     if (self) {
-        filter = [GPUImageSepiaFilter init];
+        filter = (GPUImageFilter *)[[GPUImageHalftoneFilter alloc] init]
     }
     return self;
-}
-
-- (NSImage *)process:(NSImage *)input {
-    return [filter imageByFilteringImage:input];
 }
 
 @end

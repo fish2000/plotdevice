@@ -10,13 +10,9 @@
 #import <AppKit/AppKit.h>
 #import <GPUImage/GPUImage.h>
 
-@interface SepiaFilter : NSObject {
-    GPUImageSepiaFilter *filter;
+#import "FilterBase.h"
+
+@interface SepiaFilter : FilterBase {
 }
-
-@property(nonatomic, retain) GPUImageSepiaFilter *filter;
-
-- (id)init;
-- (NSImage *)process:(NSImage *)input;
 
 @end
