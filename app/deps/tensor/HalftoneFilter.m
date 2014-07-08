@@ -6,9 +6,9 @@
 //
 //
 
-#import "Filter.h"
+#import "HalftoneFilter.h"
 
-@implementation Filter
+@implementation HalftoneFilter
 
 @synthesize filter;
 

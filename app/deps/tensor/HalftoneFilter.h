@@ -10,7 +10,7 @@
 #import <AppKit/AppKit.h>
 #import <GPUImage/GPUImage.h>
 
-@interface Filter : NSObject {
+@interface HalftoneFilter : NSObject {
     GPUImageHalftoneFilter *filter;
 }
 
