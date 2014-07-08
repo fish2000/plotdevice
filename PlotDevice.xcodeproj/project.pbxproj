@@ -37,6 +37,8 @@
 		6155D9F413E2B79E00675A92 /* CHANGES.md in Resources */ = {isa = PBXBuildFile; fileRef = 6155D9F213E2B79E00675A92 /* CHANGES.md */; };
 		6155D9F513E2B79E00675A92 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 6155D9F313E2B79E00675A92 /* README.md */; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+		CF04731D196B71C200E3C358 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF04731C196B71C200E3C358 /* GPUImage.framework */; };
+		CF047321196B744C00E3C358 /* GPUImage.framework in Copy Private Frameworks */ = {isa = PBXBuildFile; fileRef = CF04731C196B71C200E3C358 /* GPUImage.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -77,6 +79,17 @@
 				2ABDB7741867D9970069EFC3 /* plotdevice in Copy 'plotdevice' Tool */,
 			);
 			name = "Copy 'plotdevice' Tool";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CF04731E196B73F700E3C358 /* Copy Private Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				CF047321196B744C00E3C358 /* GPUImage.framework in Copy Private Frameworks */,
+			);
+			name = "Copy Private Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -154,6 +167,7 @@
 		6155D9F213E2B79E00675A92 /* CHANGES.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGES.md; sourceTree = "<group>"; };
 		6155D9F313E2B79E00675A92 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* PlotDevice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlotDevice.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF04731C196B71C200E3C358 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = app/Frameworks/GPUImage.framework; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +175,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF04731D196B71C200E3C358 /* GPUImage.framework in Frameworks */,
 				2AA40EBF184BF9CB00981ADC /* libpython2.7.dylib in Frameworks */,
 				2ABBB2FC18540246001C4E0A /* CoreVideo.framework in Frameworks */,
 				2ABBB2FE185402AC001C4E0A /* CoreMedia.framework in Frameworks */,
@@ -284,6 +299,7 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CF04731C196B71C200E3C358 /* GPUImage.framework */,
 				2AEE843D18B5603900CF91D4 /* CoreText.framework */,
 				2A15C42C18A1FA14006BDFF0 /* WebKit.framework */,
 				2A591FEF185C17D200D1833D /* Security.framework */,
@@ -381,6 +397,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "PlotDevice" */;
 			buildPhases = (
+				CF04731E196B73F700E3C358 /* Copy Private Frameworks */,
 				8D15AC2B0486D014006FF6A4 /* Resources */,
 				2A15C43718A20929006BDFF0 /* Copy Editor Assets */,
 				2A66ECEA18A99303002903DE /* Copy Editor Scripts */,
@@ -553,6 +570,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/app/Frameworks",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -581,6 +603,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = dist;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/app/Frameworks",
+				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = app/PlotDevice_Prefix.pch;
@@ -605,6 +632,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = PlotDevice;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 			};
 			name = Debug;
 		};
@@ -613,6 +641,7 @@
 			buildSettings = {
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = PlotDevice;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 			};
 			name = Release;
 		};
