@@ -1,11 +1,10 @@
 #import <Python.h>
 
 PyMethodDef methods[] = {
-  {NULL, NULL},
+  { NULL, NULL },
 };
 
-void inittensor()
-  {
+void inittensor() {
     (void)Py_InitModule("tensor", methods);
-  }
+}
 
