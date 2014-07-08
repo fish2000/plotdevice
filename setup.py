@@ -248,7 +248,7 @@ try:
             self.verbose=0
             build_py2app.finalize_options(self)
         def run(self):
-            assert os.getcwd() == self.cwd, 'Must be in package root: %s' % self.cwd
+            #assert os.getcwd() == self.cwd, 'Must be in package root: %s' % self.cwd
             build_py2app.run(self)
             if self.dry_run:
                 return
