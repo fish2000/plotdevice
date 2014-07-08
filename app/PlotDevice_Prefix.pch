@@ -5,3 +5,7 @@
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
 #endif
+
+#ifndef PLOTDEVICE_PYTHON
+    #define PLOTDEVICE_PYTHON "/usr/local/bin/python"
+#endif

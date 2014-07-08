@@ -58,6 +58,7 @@ import argparse
 import json
 import signal
 from subprocess import Popen, PIPE
+from distutils.spawn import find_executable as which
 from os.path import exists, islink, dirname, abspath, realpath, join
 
 def parse_args():
@@ -170,11 +171,11 @@ def main():
   signal.signal(signal.SIGINT, cancel)
 
   # launch the back-end of the console-runner and pipe in our params
-  py_path = filter(None, env.get('PYTHONPATH','').split(':')) # BUG: should it be unfiltered?
-  py_path.append(root)
+  py_path = filter(exists, env.get('PYTHONPATH', '').split(':'))
+  py_path.insert(0, root)
   env['PYTHONPATH'] = ":".join(py_path)
   script = join(root, 'plotdevice/run/console.py')
-  p = Popen(['/usr/bin/python', script], env=env, stdin=PIPE)
+  p = Popen([which('python'), script], env=env, stdin=PIPE)
   p.stdin.write(json.dumps(vars(opts))+"\n")
   p.wait()
 

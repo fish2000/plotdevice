@@ -1,7 +1,6 @@
 from os import getcwd
 from os.path import dirname, join
-# from distutils.core import setup, Extension
-from setuptools import setup, find_packages
+from setuptools import setup
 from setuptools.extension import Extension
 
 frameworks = join(dirname(dirname(getcwd())), 'Frameworks')

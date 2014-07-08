@@ -17,7 +17,7 @@
 # - Mac OS X 10.9+
 # - py2app or xcode or just pip
 # - PyObjC (should be in /System/Library/Frameworks/Python.framework/Versions/2.7/Extras)
-# - cPathMatics, cGeo, cIO, cEvent, & polymagic (included in the "app/deps" folder)
+# - cPathMatics, cGeo, cIO, cEvent, tensor, & polymagic (included in the "app/deps" folder)
 # - Sparkle.framework (auto-downloaded only for `dist` builds)
 
 import sys,os
@@ -210,19 +210,22 @@ class BuildDistCommand(sdist):
         os.unlink('MANIFEST.in')
 
 from distutils.command.build_py import build_py
+from distutils.spawn import find_executable as which
 class BuildCommand(build_py):
     def run(self):
         # first let the real build_py routine do its thing
         build_py.run(self)
 
         # then compile the extensions into the just-built module
-        self.spawn(['/usr/bin/python', 'app/deps/build.py', abspath(self.build_lib)])
+        self.spawn([which('python'), 'app/deps/build.py', abspath(self.build_lib)])
 
         # include some ui resources for running a script from the command line
         rsrc_dir = '%s/plotdevice/rsrc'%self.build_lib
         self.mkpath(rsrc_dir)
         self.copy_file("app/Resources/colors.json", '%s/colors.json'%rsrc_dir)
-        self.spawn(['/usr/bin/ibtool','--compile', '%s/viewer.nib'%rsrc_dir, "app/Resources/English.lproj/PlotDeviceScript.xib"])
+        self.spawn([which('ibtool'), '--compile',
+            '%s/viewer.nib'%rsrc_dir,
+            "app/Resources/English.lproj/PlotDeviceScript.xib"])
         self.copy_file("app/Resources/PlotDeviceFile.icns", '%s/viewer.icns'%rsrc_dir)
 
 class BuildAppCommand(Command):
@@ -266,12 +269,12 @@ try:
                 self.mkpath(pth)
 
             # install the module in Resources/python
-            self.spawn(['/usr/bin/ditto', MODULE, join(PY, 'plotdevice')])
+            self.spawn([which('ditto'), MODULE, join(PY, 'plotdevice')])
 
             # discard the eggery-pokery
-            remove_tree(join(RSRC,'lib'), dry_run=self.dry_run)
-            os.unlink(join(RSRC,'include'))
-            os.unlink(join(RSRC,'site.pyc'))
+            remove_tree(join(RSRC, 'lib'), dry_run=self.dry_run)
+            os.unlink(join(RSRC, 'include'))
+            os.unlink(join(RSRC, 'site.pyc'))
 
             # place the command line tool in SharedSupport
             self.copy_file("app/plotdevice", BIN)
@@ -324,9 +327,10 @@ class DistCommand(Command):
         if not exists(ORIG):
             print "Downloading Sparkle.framework"
             self.mkpath('app/deps')
-            os.system('curl -L %s | bunzip2 -c | tar xf - -C app/deps'%SPARKLE_URL)
+            os.system('%s -L %s | bunzip2 -c | tar xf - -C app/deps' % (
+                which('curl'), SPARKLE_URL))
         self.mkpath(dirname(SPARKLE))
-        self.spawn(['ditto', ORIG, SPARKLE])
+        self.spawn([which('ditto'), ORIG, SPARKLE])
 
         # code-sign the app and sparkle bundles, then verify
         self.spawn(['codesign', '-f', '-v', '-s', "Developer ID Application", SPARKLE])
@@ -334,7 +338,7 @@ class DistCommand(Command):
         self.spawn(['spctl', '--assess', '-v', 'dist/PlotDevice.app'])
 
         # create versioned zipfile of the app
-        self.spawn(['ditto','-ck', '--keepParent', APP, ZIP])
+        self.spawn([which('ditto'), '-ck', '--keepParent', APP, ZIP])
 
         # update the app.xml feed (pulled from the server)
         release = dict(zipfile=basename(ZIP), bytes=os.path.getsize(ZIP),
@@ -356,7 +360,8 @@ class SubmitCommand(Command):
         pass
     def run(self):
         print "Checking feed xml"
-        gosub('tidy -xml -utf8 -e dist/app.xml', on_err="app.xml didn't validate properly")
+        gosub('%s -xml -utf8 -e dist/app.xml' % which('tidy'),
+            on_err="app.xml didn't validate properly")
 
         tarfile = 'dist/plotdevice-%s.tar.gz'%VERSION
         zipfile = 'dist/PlotDevice_app-%s.zip'%VERSION
@@ -369,10 +374,10 @@ class SubmitCommand(Command):
         # <confirmation y.n goes here>
 
         print "posting dist/app.xml"
-        gosub('scp dist/app.xml plotdevice.io:plod')
+        gosub('%s dist/app.xml plotdevice.io:plod' % which('scp'))
 
         print "posting", zipfile
-        gosub('scp %s plotdevice.io:plod/app'%zipfile)
+        gosub('%s %s plotdevice.io:plod/app' % (which('scp'), zipfile))
 
         # <upload to pypi goes here>
 
