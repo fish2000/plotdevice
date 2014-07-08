@@ -13,7 +13,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        filter = (GPUImageFilter *)[[GPUImageHalftoneFilter alloc] init]
+        filter = (GPUImageFilter *)[[GPUImageHalftoneFilter alloc] init];
     }
     return self;
 }
