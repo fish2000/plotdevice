@@ -14,3 +14,5 @@ test.py
 # Xcode user files
 project.xcworkspace
 xcuserdata
+DerivedData/
+Xcode/
