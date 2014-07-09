@@ -128,6 +128,11 @@ class Image(EffectsMixin, TransformMixin, BoundsMixin, Grob):
         warnings.warn("The 'image' attribute is deprecated. Please use _nsImage instead.", DeprecationWarning, stacklevel=2)
         return self._nsImage
 
+    def applyFilter(self, gpuFilter):
+        filteredNSImage = gpuFilter.process_(self._nsImage)
+        if filteredNSImage:
+            self._nsImage = filteredNSImage
+
     @property
     def _nsBitmap(self):
         for bitmap in self._nsImage.representations():
