@@ -1,4 +1,4 @@
-import sys
+import sys, warnings
 from os.path import join, abspath, dirname, exists
 from pprint import pformat
 
@@ -37,7 +37,8 @@ except ImportError:
 try:
     import tensorlib
 except ImportError:
-    raise RuntimeError(notfound('tensorlib'))
+    #raise RuntimeError(notfound('tensorlib'))
+    warnings.warn(notfound('tensorlib'))
 
 # FUCKING FLAKE-EIGHT ENOUGH ALREADY FOR FUCK'S SAKE
 io = geometry = pathmatics = tensorlib = None
