@@ -262,14 +262,21 @@ try:
 
             # set up internal paths and ensure destination dirs exist
             RSRC = self.resdir
-            BIN = join(dirname(RSRC), 'SharedSupport')
-            MODULE = join(self.bdist_base, 'lib/plotdevice')
+            CONTENTS = dirname(RSRC)
+            BIN = join(CONTENTS, 'SharedSupport')
+            WORKS = join(CONTENTS, 'Frameworks', 'GPUImage.framework')
+            MODULE = join(self.bdist_base, 'lib', 'plotdevice')
             PY = join(RSRC, 'python')
-            for pth in BIN, PY:
+            DITTO = which('ditto')
+
+            for pth in BIN, WORKS, PY:
                 self.mkpath(pth)
 
             # install the module in Resources/python
-            self.spawn([which('ditto'), MODULE, join(PY, 'plotdevice')])
+            self.spawn([DITTO, MODULE, join(PY, 'plotdevice')])
+
+            # deposit a copy of GPUImage.framework in Frameworks
+            self.spawn([DITTO, 'app/Frameworks/GPUImage.framework', WORKS])
 
             # discard the eggery-pokery
             remove_tree(join(RSRC, 'lib'), dry_run=self.dry_run)

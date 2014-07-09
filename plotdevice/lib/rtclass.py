@@ -1,23 +1,31 @@
 
 from __future__ import print_function
-
+from functools import partial
 import objc, warnings
 
 OBJ_COLON = '_'
 
+class ObjCAncestor(type):
+    """ Subclass RTClass using the name of an Objective-C class
+        to generate a pythonic wrapper (if you like your syntax sweet)
+    """
+    def __init__(cls, name, bases, attrs):
+        # print("%s, (%s) {%s}" % (name, bases, attrs.keys()))
+        creator = partial(cls.__new__, cls)
+        if name == 'RTClass':
+            # Don't search for something named RTClass
+            super(ObjCAncestor, cls).__init__(name, bases, attrs)
+            return
+        try:
+            cls.__rtbase__ = objc.lookUpClass(name)
+        except objc.nosuchclass_error:
+            warnings.warn("RTClass: Objective-C class '%s' not found" % name)
+            super(ObjCAncestor, cls).__init__(name, bases, attrs)
+            return
+        super(ObjCAncestor, cls).__init__(name, tuple([cls.__rtbase__] + list(bases) + [object]), attrs)
+
 class RTClass(object):
-    class __metaclass__(type):
-        """ Subclass RTClass using the name of an Objective-C class
-            to generate a pythonic wrapper (if you like your syntax sweet)
-        """
-        def __new__(cls, name, bases, attrs):
-            create = super(RTClass, cls).__new__
-            try:
-                cls.__rtbase__ = objc.lookUpClass(name)
-            except objc.nosuchclass_error:
-                warnings.warn("RTClass: Objective-C class '%s' not found" % name)
-                return create(name, bases, attrs)
-            return create(name, tuple([cls.__rtbase__] + list(bases)), attrs)
+    __metaclass__ = ObjCAncestor
     
     def __new__(cls, *args, **kwargs):
         """ Allow PyObjC-based RTClass subclasses to initialize pythonically e.g.
@@ -30,12 +38,20 @@ class RTClass(object):
             
                 nsarray = NSArray.alloc().initWithArray_(other_nsarray) # bah
         """
+        print("__new__ shit that's how I do shit: %s" % cls)
         if hasattr(cls, '__rtbase__'):
+            objc_cls = cls.__rtbase__
             init_method_name = kwargs.pop('init', 'init')
-            instance = cls.alloc()
-            init_method = getattr(instance, init_method_name)
-            return init_method(*args)
-        return super(RTClass, cls).__new__(cls, *args, **kwargs)
+            if hasattr(objc_cls, 'alloc'):
+                print("ALLOC")
+                instance = objc_cls.alloc()
+                init_method = getattr(instance, init_method_name)
+                return init_method(*args)
+            if hasattr(objc_cls, 'init'):
+                print("INIT")
+                init_method = getattr(objc_cls, init_method_name)
+                return init_method(*args)
+        return object.__new__(cls, *args, **kwargs)
     
     def __getattr__(self, attr):
         """ For unknown attributes that don't end in underscores,
@@ -49,7 +65,25 @@ class RTClass(object):
     
     def __repr__(self):
         # This may be a bad idea, let's find out
-        return "(%s) ->> %s" % (
+        return "(%s) <<- %s" % (
             self.__class__.__name__,
             super(RTClass, self).__repr__())
 
+
+
+if __name__ == '__main__':
+    import tensorlib
+    
+    class NSImage(RTClass):
+        pass
+    
+    class PolkaDotFilter(RTClass):
+        pass
+    
+    polkadotter = PolkaDotFilter()
+    
+    print(polkadotter)
+    print(polkadotter.__class__)
+    print(polkadotter.__class__.__bases__)
+    #print(polkadotter.process)
+    print(polkadotter)
