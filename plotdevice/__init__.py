@@ -34,7 +34,8 @@ sys.path.append(os.path.join(os.getenv('HOME'), 'Library', 'Application Support'
 try:
     import objc
 except ImportError:
-    extras = '/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python'
+    #extras = '/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python'
+    extras = sys.prefix
     sys.path.extend([extras, '%s/PyObjC'%extras])
     import objc
 

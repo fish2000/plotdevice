@@ -1,9 +1,7 @@
-import sys
-import objc
-import Foundation
-import AppKit
+
+import sys, objc, Foundation, AppKit
 from signal import signal, SIGINT
-from os.path import dirname, abspath, join, isdir, exists
+from os.path import abspath, isdir
 from PyObjCTools import AppHelper
 
 # if there's a python installed into /usr/local, it's probably homebrew --
@@ -22,9 +20,8 @@ sys.path.insert(0,
 seen = set()
 seen_add = seen.add
 clean_path = tuple(directory for directory in sys.path \
-    if exists(directory) and \
-        directory not in seen and \
-            not seen_add(directory))
+    if directory not in seen and \
+        not seen_add(directory))
 sys.path = list(clean_path)
 
 # install a signal handler to quit on ^c (should the app ever be launched from terminal)
