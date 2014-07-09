@@ -5,7 +5,7 @@
 #
 #  Created by FI$H 2000 on 7/9/14.
 #
-#  Adapted from source from StackOverflow:
+#  See also:
 #  http://stackoverflow.com/a/14914070/298171
 #
 #
