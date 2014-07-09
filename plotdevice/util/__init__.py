@@ -9,7 +9,12 @@ from os.path import abspath, dirname, exists, join
 from random import choice, shuffle
 from plotdevice import DeviceError
 
-__all__ = ('grid', 'random', 'shuffled', 'choice', 'ordered', 'order', 'files', 'read', 'autotext', '_copy_attr', '_copy_attrs', 'odict', 'ddict', 'adict')
+__all__ = (
+    'grid', 'random', 'shuffled',
+    'choice', 'ordered', 'order',
+    'files', 'read', 'autotext',
+    '_copy_attr', '_copy_attrs',
+    'odict', 'ddict', 'adict')
 
 ### Utilities ###
 

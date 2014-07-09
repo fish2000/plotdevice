@@ -5,7 +5,7 @@ from contextlib import contextmanager, nested
 from collections import namedtuple
 
 from .util import _copy_attr, _copy_attrs, _flatten, trim_zeroes
-from .lib import geometry, pathmatics, tensor
+from .lib import geometry, pathmatics, tensorlib
 from .gfx.transform import Dimension
 from .gfx import *
 from . import gfx, lib, util, Halted, DeviceError

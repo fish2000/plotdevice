@@ -1,13 +1,10 @@
 
 from __future__ import print_function
 
-import objc
-import tensorlib
+import objc, tensorlib
 from .rtclass import RTClass
 #from collections import defaultdict
-#from PyObjCTools import AppHelper
 
-'''
 class ColorInvertFilter(RTClass):
     """ Wrapper for tensorlib/ColorInvertFilter """
     pass
@@ -35,7 +32,6 @@ class SoftEleganceFilter(RTClass):
 class VignetteFilter(RTClass):
     """ Wrapper for tensorlib/VignetteFilter """
     pass
-'''
 
 # NSUnknownColorSpaceModel = -1,
 NSColorSpaceModels = (
