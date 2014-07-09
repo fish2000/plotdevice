@@ -266,7 +266,7 @@ try:
             PY = join(RSRC, 'python')
             DITTO = which('ditto')
 
-            for pth in BIN, WORKS, PY:
+            for pth in BIN, GPUIMAGE, PY:
                 self.mkpath(pth)
 
             # install the module in Resources/python
