@@ -380,7 +380,7 @@ class DistCommand(Command):
                 tar=which('tar'), temp=tempdir))
             GPUIMAGE_SOURCE = join(tempdir, 'GPUImage-%s' % GPUIMAGE_VERSION, 'framework')
             GPUIMAGE_XCPROJECT = join(GPUIMAGE_SOURCE, 'GPUImageMac.xcodeproj')
-            GPUIMAGE_BUILT = join(GPUIMAGE_SOURCE, 'build', 'Release')
+            GPUIMAGE_BUILT = join(GPUIMAGE_SOURCE, 'build', 'Release', 'GPUImage.framework')
             if not exists(GPUIMAGE_SOURCE):
                 print "ERROR: there was a problem getting the GPUImage source"
                 sys.exit(1)
