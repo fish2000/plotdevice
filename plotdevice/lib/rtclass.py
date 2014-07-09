@@ -2,7 +2,6 @@
 from __future__ import print_function
 
 import objc, warnings
-#from PyObjCTools import AppHelper
 
 OBJ_COLON = '_'
 
@@ -50,4 +49,7 @@ class RTClass(object):
     
     def __repr__(self):
         # This may be a bad idea, let's find out
-        return "[RT] " + super(RTClass, self).__repr__()
+        return "(%s) ->> %s" % (
+            self.__class__.__name__,
+            super(RTClass, self).__repr__())
+

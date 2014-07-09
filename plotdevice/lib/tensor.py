@@ -1,17 +1,39 @@
 
 from __future__ import print_function
 
+import objc
+import tensorlib
 from .rtclass import RTClass
 #from collections import defaultdict
 #from PyObjCTools import AppHelper
 
-import tensorlib
 
-# for cls in ["Filter"]:
-#     globals()[cls] = objc.lookUpClass(cls)
+class ColorInvertFilter(RTClass):
+    """ Wrapper for tensorlib/ColorInvertFilter """
+    pass
 
-class Filter(RTClass):
-    """ Wrapper class around a basic Tensor image filter """
+class HalftoneFilter(RTClass):
+    """ Wrapper for tensorlib/HalftoneFilter """
+    pass
+
+class MissEtikateFilter(RTClass):
+    """ Wrapper for tensorlib/MissEtikateFilter """
+    pass
+
+class PolkaDotFilter(RTClass):
+    """ Wrapper for tensorlib/PolkaDotFilter """
+    pass
+
+class SepiaFilter(RTClass):
+    """ Wrapper for tensorlib/SepiaFilter """
+    pass
+
+class SoftEleganceFilter(RTClass):
+    """ Wrapper for tensorlib/SoftElegaceFilter """
+    pass
+
+class VignetteFilter(RTClass):
+    """ Wrapper for tensorlib/VignetteFilter """
     pass
 
 

@@ -1,5 +1,5 @@
 //
-//  Filter.m
+//  SepiaFilter.m
 //  PlotDevice
 //
 //  Created by fish2k on 12/13/13.
@@ -13,7 +13,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        filter = (GPUImageFilter *)[[GPUImageHalftoneFilter alloc] init];
+        filter = (GPUImageFilter *)[[GPUImageSepiaFilter alloc] init];
     }
     return self;
 }

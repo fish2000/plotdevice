@@ -1,5 +1,5 @@
 //
-//  SepiaFilter.h
+//  PolkaDotFilter.h
 //  PlotDevice
 //
 //  Created by fish2k on 12/7/13.
@@ -12,7 +12,7 @@
 
 #import "FilterBase.h"
 
-@interface SepiaFilter : FilterBase {
+@interface PolkaDotFilter : FilterBase {
 }
 
 @end

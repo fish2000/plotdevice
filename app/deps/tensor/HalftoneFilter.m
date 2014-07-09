@@ -1,5 +1,5 @@
 //
-//  Filter.m
+//  HalftoneFilter.m
 //  PlotDevice
 //
 //  Created by fish2k on 12/13/13.
