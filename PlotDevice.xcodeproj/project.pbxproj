@@ -39,8 +39,6 @@
 		CF04731D196B71C200E3C358 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF04731C196B71C200E3C358 /* GPUImage.framework */; };
 		CF047321196B744C00E3C358 /* GPUImage.framework in Copy Private Frameworks */ = {isa = PBXBuildFile; fileRef = CF04731C196B71C200E3C358 /* GPUImage.framework */; };
 		CF29B4BE196C51B70092593E /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF29B4BC196C51410092593E /* Python.framework */; };
-		CFF92338196D31780095586A /* rtclass.py in Resources */ = {isa = PBXBuildFile; fileRef = CFF92336196D31780095586A /* rtclass.py */; };
-		CFF92339196D31780095586A /* tensor.py in Resources */ = {isa = PBXBuildFile; fileRef = CFF92337196D31780095586A /* tensor.py */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -456,7 +454,6 @@
 				611CC49C10BA8B9E00B55455 /* InfoPlist.strings in Resources */,
 				611CC4A110BA8B9E00B55455 /* PlotDevice.icns in Resources */,
 				2A93AE751903326E00C6144D /* placeholder.pdf in Resources */,
-				CFF92339196D31780095586A /* tensor.py in Resources */,
 				611CC4A210BA8B9E00B55455 /* PlotDeviceFile.icns in Resources */,
 				611CC5A010BA908C00B55455 /* PlotDeviceDocument.xib in Resources */,
 				611CC5A810BA919A00B55455 /* PlotDevicePreferences.xib in Resources */,
@@ -465,7 +462,6 @@
 				2A7AF5C818D2AFAA00F8FFC2 /* examples in Resources */,
 				6155D9F413E2B79E00675A92 /* CHANGES.md in Resources */,
 				6155D9F513E2B79E00675A92 /* README.md in Resources */,
-				CFF92338196D31780095586A /* rtclass.py in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -640,19 +636,30 @@
 		C05733CC08A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "";
+				FRAMEWORK_SEARCH_PATHS = /Users/fish/Dropbox/plotdevice/app/Frameworks;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = PlotDevice;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				VALID_ARCHS = x86_64;
+				"VALID_ARCHS[sdk=*]" = x86_64;
 			};
 			name = Debug;
 		};
 		C05733CD08A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "";
+				FRAMEWORK_SEARCH_PATHS = /Users/fish/Dropbox/plotdevice/app/Frameworks;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = PlotDevice;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
+				VALID_ARCHS = x86_64;
+				"VALID_ARCHS[sdk=*]" = x86_64;
 			};
 			name = Release;
 		};
