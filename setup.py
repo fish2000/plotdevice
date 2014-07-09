@@ -189,6 +189,7 @@ class CleanCommand(Command):
         pass
     def run(self):
         os.system('rm -rf ./build ./dist')
+        os.system('rm -rf ./Xcode/Build ./Xcode/Intermediates ./DerivedData')
         os.system('rm -rf ./app/deps/*/build')
         os.system('rm -rf plotdevice.egg-info MANIFEST.in PKG')
 
