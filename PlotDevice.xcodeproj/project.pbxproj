@@ -39,7 +39,6 @@
 		CF04731D196B71C200E3C358 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF04731C196B71C200E3C358 /* GPUImage.framework */; };
 		CF047321196B744C00E3C358 /* GPUImage.framework in Copy Private Frameworks */ = {isa = PBXBuildFile; fileRef = CF04731C196B71C200E3C358 /* GPUImage.framework */; };
 		CF29B4BE196C51B70092593E /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF29B4BC196C51410092593E /* Python.framework */; };
-		CF8FE67D196D448F00DD6E87 /* PlotDevice.app in Resources */ = {isa = PBXBuildFile; fileRef = 8D15AC370486D014006FF6A4 /* PlotDevice.app */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -460,7 +459,6 @@
 				611CC5A810BA919A00B55455 /* PlotDevicePreferences.xib in Resources */,
 				611CC68010BAA08300B55455 /* MainMenu.xib in Resources */,
 				611CC68710BAA0A600B55455 /* AskString.xib in Resources */,
-				CF8FE67D196D448F00DD6E87 /* PlotDevice.app in Resources */,
 				2A7AF5C818D2AFAA00F8FFC2 /* examples in Resources */,
 				6155D9F413E2B79E00675A92 /* CHANGES.md in Resources */,
 				6155D9F513E2B79E00675A92 /* README.md in Resources */,
