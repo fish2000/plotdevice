@@ -39,6 +39,7 @@
 		CF04731D196B71C200E3C358 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF04731C196B71C200E3C358 /* GPUImage.framework */; };
 		CF047321196B744C00E3C358 /* GPUImage.framework in Copy Private Frameworks */ = {isa = PBXBuildFile; fileRef = CF04731C196B71C200E3C358 /* GPUImage.framework */; };
 		CF29B4BE196C51B70092593E /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF29B4BC196C51410092593E /* Python.framework */; };
+		CF61A9FE196DF5DC00BDFF1D /* old-python-include-link-paths.sh in Resources */ = {isa = PBXBuildFile; fileRef = CF61A9FD196DF5DC00BDFF1D /* old-python-include-link-paths.sh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -167,6 +168,8 @@
 		8D15AC370486D014006FF6A4 /* PlotDevice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlotDevice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF04731C196B71C200E3C358 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = app/Frameworks/GPUImage.framework; sourceTree = SOURCE_ROOT; };
 		CF29B4BC196C51410092593E /* Python.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python.framework; path = /usr/local/Cellar/python/2.7.8/Frameworks/Python.framework; sourceTree = "<absolute>"; };
+		CF61A9FD196DF5DC00BDFF1D /* old-python-include-link-paths.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "old-python-include-link-paths.sh"; sourceTree = "<group>"; };
+		CF61A9FF196DF61600BDFF1D /* relpath.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = relpath.sh; sourceTree = "<group>"; };
 		CFF92336196D31780095586A /* rtclass.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = rtclass.py; sourceTree = "<group>"; };
 		CFF92337196D31780095586A /* tensor.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = tensor.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -259,6 +262,7 @@
 				611CC4AE10BA8C1B00B55455 /* plotdevice */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
+				CF61A9FC196DF5DC00BDFF1D /* etc */,
 				2A7AF5C718D2AFAA00F8FFC2 /* examples */,
 				2A64AB46195F4E78001E4E69 /* deps */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
@@ -392,6 +396,15 @@
 			path = util;
 			sourceTree = "<group>";
 		};
+		CF61A9FC196DF5DC00BDFF1D /* etc */ = {
+			isa = PBXGroup;
+			children = (
+				CF61A9FD196DF5DC00BDFF1D /* old-python-include-link-paths.sh */,
+				CF61A9FF196DF61600BDFF1D /* relpath.sh */,
+			);
+			path = etc;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -461,6 +474,7 @@
 				611CC68710BAA0A600B55455 /* AskString.xib in Resources */,
 				2A7AF5C818D2AFAA00F8FFC2 /* examples in Resources */,
 				6155D9F413E2B79E00675A92 /* CHANGES.md in Resources */,
+				CF61A9FE196DF5DC00BDFF1D /* old-python-include-link-paths.sh in Resources */,
 				6155D9F513E2B79E00675A92 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -572,6 +586,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				COPY_PHASE_STRIP = NO;
+				DEPLOYMENT_POSTPROCESSING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -607,6 +622,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = dist;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_POSTPROCESSING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
