@@ -290,10 +290,10 @@ try:
             # in the relative location of GPUImage.framework in the project tree,
             # _qua_ the application bundle, vis-a-vis the extensions in question
             CAMEFROM = os.getcwd()
-            os.chdir(CONTENTS)
+            os.chdir(PLOTDEVICE)
             self.spawn([LN, '-s',
-                relpath(FRAMEWORKS, start=CONTENTS),
-                relpath(FAKEWORKS,  start=CONTENTS)])
+                relpath(FRAMEWORKS, start=PLOTDEVICE),
+                relpath(FAKEWORKS,  start=PLOTDEVICE)])
             os.chdir(CAMEFROM)
 
             # discard the eggery-pokery
