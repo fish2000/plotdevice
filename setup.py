@@ -17,7 +17,7 @@
 # - Mac OS X 10.9+
 # - py2app or xcode or just pip
 # - PyObjC (should be in /System/Library/Frameworks/Python.framework/Versions/2.7/Extras)
-# - cPathMatics, cGeo, cIO, cEvent, tensor, & polymagic (included in the "app/deps" folder)
+# - cPathMatics, cGeo, cIO, cEvent, tensorlib, & polymagic (included in the "app/deps" folder)
 # - Sparkle.framework (auto-downloaded only for `dist` builds)
 
 import sys,os

@@ -1,7 +1,7 @@
 
 from __future__ import print_function
-from functools import partial
-import objc, warnings
+# from functools import partial
+import sys, objc, warnings
 
 OBJ_COLON = '_'
 
@@ -11,7 +11,7 @@ class ObjCAncestor(type):
         """
     def __init__(cls, name, bases, attrs):
         # print("%s, (%s) {%s}" % (name, bases, attrs.keys()))
-        creator = partial(cls.__new__, cls)
+        # creator = partial(cls.__new__, cls)
         if name == 'RTClass':
             # Don't search for something named RTClass
             super(ObjCAncestor, cls).__init__(name, bases, attrs)
@@ -72,9 +72,12 @@ class RTClass(object):
 
 
 if __name__ == '__main__':
-    import tensorlib
+    try:
+        import tensorlib
+    except ImportError:
+        sys.exit(1)
 
-    class NSImage(RTClass): 
+    class NSImage(RTClass):
         pass
 
     class PolkaDotFilter(RTClass):
@@ -87,3 +90,5 @@ if __name__ == '__main__':
     print(polkadotter.__class__.__bases__)
     #print(polkadotter.process)
     print(polkadotter)
+    
+    print(dir(tensorlib))
