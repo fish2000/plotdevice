@@ -3,6 +3,7 @@
 *.so
 build/
 dist/
+dist-*
 app/deps/Sparkle*
 
 # cds garbage
