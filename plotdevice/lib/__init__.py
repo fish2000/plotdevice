@@ -9,7 +9,7 @@ if exists(join(module_root, 'app/PlotDevice-Info.plist')):
     so_dir = join(module_root, 'build/lib/plotdevice/lib')
     sys.path.append(so_dir)
     if not exists(so_dir):
-        unbuilt = 'Build the plotdevice module with `python setup.pt build\' before attempting import it.'
+        unbuilt = 'Build the plotdevice module with `python setup.py build\' before attempting import it.'
         raise RuntimeError(unbuilt)
 
 # test the sys.path by attempting to load the c-extensions
