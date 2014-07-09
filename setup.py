@@ -141,7 +141,7 @@ def timestamp():
 
 import urllib2
 def last_release():
-    from xml.etree.ElementTree import fromstring, tostring
+    from xml.etree.ElementTree import fromstring
     feed_xml = urllib2.urlopen('http://plotdevice.io/app.xml').read().decode('utf-8')
     for item in fromstring(feed_xml.encode('utf-8')).iter('revision'):
         return item.text
@@ -183,10 +183,8 @@ from distutils.core import Command
 class CleanCommand(Command):
     description = "wipe out the ./build ./dist and app/deps/.../build dirs"
     user_options = []
-    def initialize_options(self):
-        pass
-    def finalize_options(self):
-        pass
+    def initialize_options(self): pass
+    def finalize_options(self): pass
     def run(self):
         os.system('rm -rf ./build ./dist')
         os.system('rm -rf ./Xcode/Build ./Xcode/Intermediates ./DerivedData')
@@ -232,17 +230,15 @@ class BuildCommand(build_py):
 class BuildAppCommand(Command):
     description = "Build PlotDevice.app with xcode"
     user_options = []
-    def initialize_options(self):
-        pass
-    def finalize_options(self):
-        pass
+    def initialize_options(self): pass
+    def finalize_options(self): pass
     def run(self):
         self.spawn(['xcodebuild'])
         remove_tree('dist/PlotDevice.app.dSYM')
         print "done building PlotDevice.app in ./dist"
 
 try:
-    import py2app
+    #import py2app
     from py2app.build_app import py2app as build_py2app
     class BuildPy2AppCommand(build_py2app):
         description = """Build PlotDevice.app with py2app (then undo some of its questionable layout defaults)"""
@@ -265,7 +261,7 @@ try:
             RSRC = self.resdir
             CONTENTS = dirname(RSRC)
             BIN = join(CONTENTS, 'SharedSupport')
-            WORKS = join(CONTENTS, 'Frameworks', 'GPUImage.framework')
+            GPUIMAGE = join(CONTENTS, 'Frameworks', 'GPUImage.framework')
             MODULE = join(self.bdist_base, 'lib', 'plotdevice')
             PY = join(RSRC, 'python')
             DITTO = which('ditto')
@@ -277,7 +273,7 @@ try:
             self.spawn([DITTO, MODULE, join(PY, 'plotdevice')])
 
             # deposit a copy of GPUImage.framework in Frameworks
-            self.spawn([DITTO, 'app/Frameworks/GPUImage.framework', WORKS])
+            self.spawn([DITTO, 'app/Frameworks/GPUImage.framework', GPUIMAGE])
 
             # discard the eggery-pokery
             remove_tree(join(RSRC, 'lib'), dry_run=self.dry_run)
@@ -297,7 +293,12 @@ except DistributionNotFound:
     if 'py2app' in sys.argv:
         print """setup.py: py2app build failed
           Couldn't find the py2app module (perhaps because you've called setup.py from a virtualenv).
-          Make sure you're using the system's /usr/bin/python interpreter for py2app builds."""
+          Make sure you're using either:
+          
+              * Apple's system-installed python: /usr/bin/python -- or,
+              * A Homebrew python install: /usr/local/bin/python
+              
+          ... for py2app builds (The latter option should be a framework build). """
         sys.exit(1)
 
 
@@ -306,10 +307,8 @@ except DistributionNotFound:
 class DistCommand(Command):
     description = "Create distributable zip of the app and an updated app.xml feed"
     user_options = []
-    def initialize_options(self):
-        pass
-    def finalize_options(self):
-        pass
+    def initialize_options(self): pass
+    def finalize_options(self): pass
     def run(self):
         APP = 'dist/PlotDevice.app'
         ZIP = 'dist/PlotDevice_app-%s.zip' % VERSION
@@ -326,8 +325,7 @@ class DistCommand(Command):
             CFBundleVersion = last_commit(),
             CFBundleShortVersionString = VERSION,
             SUFeedURL = 'http://plotdevice.io/app.xml',
-            SUEnableSystemProfiling = 'YES'
-        )
+            SUEnableSystemProfiling = 'YES')
 
         # Download Sparkle (if necessary) and copy it into the bundle
         ORIG = 'app/deps/Sparkle-%s/Sparkle.framework'%SPARKLE_VERSION
@@ -371,9 +369,8 @@ class SubmitCommand(Command):
         gosub('%s -xml -utf8 -e dist/app.xml' % which('tidy'),
             on_err="app.xml didn't validate properly")
 
-        tarfile = 'dist/plotdevice-%s.tar.gz'%VERSION
         zipfile = 'dist/PlotDevice_app-%s.zip'%VERSION
-        from xml.etree.ElementTree import parse, dump
+        from xml.etree.ElementTree import parse
         for item in parse('dist/app.xml').getroot().iter('item'):
             release = item.find('enclosure').attrib
             assert release['url'].endswith(basename(zipfile)), "Version mismatch: %s vs %r" % (zipfile, release['url'])
@@ -420,12 +417,17 @@ if __name__=='__main__':
         },
     )
 
-    # py2app-specific config
+    # py2app-specific config 
+    # Note how we're not adding the GPUImage framework here,
+    # despite what the paltry docs available, as regards
+    # the subject of py2app and framework-addery,
+    # seem to suggest -- we do it ourselves when executing
+    # the BuildPy2AppCommand stuf.
     if 'py2app' in sys.argv:
         config.update(dict(
             app = [{
                 'script': "app/plotdevice-app.py",
-                "plist":info_plist(),
+                "plist": info_plist(),
             }],
             data_files = [
                 "app/Resources/ui",
@@ -437,9 +439,9 @@ if __name__=='__main__':
             options = {
                 "py2app": {
                     "iconfile": "app/Resources/PlotDevice.icns",
-                    "semi_standalone":True,
-                    "site_packages":True,
-                    "strip":False,
+                    "semi_standalone": True,
+                    "site_packages": True,
+                    "strip": False,
                 }
             },
             cmdclass={
