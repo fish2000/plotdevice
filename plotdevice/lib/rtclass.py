@@ -74,7 +74,7 @@ class RTClass(object):
 if __name__ == '__main__':
     import tensorlib
 
-    class NSImage(RTClass):
+    class NSImage(RTClass): 
         pass
 
     class PolkaDotFilter(RTClass):
