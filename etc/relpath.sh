@@ -34,5 +34,3 @@ relpath () {
     relative="$relative${relative:+${appendix:+/}}${appendix#/}"
     echo "$relative"
 }
-
-#relpath "$@"

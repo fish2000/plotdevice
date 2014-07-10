@@ -39,7 +39,6 @@
 		CF04731D196B71C200E3C358 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF04731C196B71C200E3C358 /* GPUImage.framework */; };
 		CF047321196B744C00E3C358 /* GPUImage.framework in Copy Private Frameworks */ = {isa = PBXBuildFile; fileRef = CF04731C196B71C200E3C358 /* GPUImage.framework */; };
 		CF29B4BE196C51B70092593E /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF29B4BC196C51410092593E /* Python.framework */; };
-		CF61A9FE196DF5DC00BDFF1D /* old-python-include-link-paths.sh in Resources */ = {isa = PBXBuildFile; fileRef = CF61A9FD196DF5DC00BDFF1D /* old-python-include-link-paths.sh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -218,7 +217,7 @@
 				8D15AC370486D014006FF6A4 /* PlotDevice.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		2A15C44018A20971006BDFF0 /* ui */ = {
 			isa = PBXGroup;
@@ -420,6 +419,7 @@
 				2ABDB76F1867D9560069EFC3 /* Copy 'plotdevice' Tool */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
+				CF093DD3196E06E200B00802 /* Symlink PlotDevice.app/Contents/Frameworks as PlotDevice.app/Contents/Resources/python/plotdevice/Frameworks */,
 			);
 			buildRules = (
 			);
@@ -474,7 +474,6 @@
 				611CC68710BAA0A600B55455 /* AskString.xib in Resources */,
 				2A7AF5C818D2AFAA00F8FFC2 /* examples in Resources */,
 				6155D9F413E2B79E00675A92 /* CHANGES.md in Resources */,
-				CF61A9FE196DF5DC00BDFF1D /* old-python-include-link-paths.sh in Resources */,
 				6155D9F513E2B79E00675A92 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -495,6 +494,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "python=\"/usr/bin/python\"\nif [ -x /usr/local/bin/python ]; then\n    python=\"/usr/local/bin/python\"\nfi\n\n# let the setup script handle updating\neval \"${python} setup.py build\"\n\n# copy the up-to-date module contents into the app bundle\nEXT_DIR=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/python/\"\nmkdir -p $EXT_DIR\nditto build/lib/plotdevice \"$EXT_DIR/plotdevice\"\n\n# make sure everything has a .pyc (so code-signing doesn't break on first run)\neval \"${python} -m compileall ${EXT_DIR}/plotdevice\"";
+		};
+		CF093DD3196E06E200B00802 /* Symlink PlotDevice.app/Contents/Frameworks as PlotDevice.app/Contents/Resources/python/plotdevice/Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Symlink PlotDevice.app/Contents/Frameworks as PlotDevice.app/Contents/Resources/python/plotdevice/Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\n#app=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\nframeworks=\"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\nresources=\"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\nplotdevice=\"${resources}/python/plotdevice\"\n\n/usr/local/bin/terminal-notifier -message \"Running RELEASE Post-Build Actions\"\n\nset +x\nsource ${SOURCE_ROOT}/etc/relpath.sh\n\npushd $plotdevice\n[ ! -L \"${plotdevice}/Frameworks\" ] && /bin/ln -s `relpath $plotdevice $frameworks` Frameworks\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -584,8 +597,9 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
+				CONFIGURATION_BUILD_DIR = dist;
 				COPY_PHASE_STRIP = NO;
+				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -622,6 +636,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = dist;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
