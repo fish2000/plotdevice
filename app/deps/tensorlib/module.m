@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 #import <Python.h>
 
+#import "filters.h"
+
 /*
  * Stub python module declaration --
  * Allows Objective-C classes with which it is linked

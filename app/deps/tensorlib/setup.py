@@ -25,12 +25,13 @@ def get_sources(filter_dict, suffix="m"):
 def write_filter_header(filter_dict):
     headers = get_sources(filter_dict, suffix="h")
     with open("filters.h", 'wb') as header_fh:
-        header_fh.write('''#import "filters/FilterBase.h"\n''')
+        header_fh.write('''#import "filters/FilterBase.h"\n\n''')
         header_fh.writelines(['''#import "%s"\n''' % header for header in headers])
 
 filters = find_filters()
 sources = ['module.m', 'filters/FilterBase.m']
 sources.extend(get_sources(filters))
+write_filter_header(filters)
 
 print('Building tensorlib with %d filters:' % len(filters))
 pprint(sorted(filters.keys()))
