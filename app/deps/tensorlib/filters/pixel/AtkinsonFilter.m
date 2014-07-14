@@ -30,7 +30,7 @@ unsigned char *atkinson(unsigned char *inputPixels, int w, int h, int len) {
             /// pixel (x, y) offset within the 1D char buffer
             off = (y * w) + x;
             
-            /// calculate threshold and error value
+            /// threshold and error value
             old = outputPixels[off];
             new = threshold[ outputPixels[off] ];
             err = (old - new) >> 3;
@@ -38,32 +38,22 @@ unsigned char *atkinson(unsigned char *inputPixels, int w, int h, int len) {
             /// update the image
             outputPixels[off] = new;
             
-            // x+1, y
+            /// add error values
             if (x+1 < w) {
                 outputPixels[off + 1] = adderror(outputPixels[off + 1], err);
             }
-            
-            // x+2, y
             if (x+2 < w) {
                 outputPixels[off + 2] = adderror(outputPixels[off + 2], err);
             }
-            
-            // x-1, y+1
             if (x > 0 && y+1 < h) {
                 outputPixels[off + w - 1] = adderror(outputPixels[off + w - 1], err);
             }
-            
-            // x, y+1
             if (y+1 < h) {
                 outputPixels[off + w] = adderror(outputPixels[off + w], err);
             }
-            
-            // x+1, y+1
             if (x+1 < w && y+1 < h) {
                 outputPixels[off + w + 1] = adderror(outputPixels[off + w + 1], err);
             }
-            
-            // x, y+2
             if (y+2 < h) {
                 outputPixels[off + 2 * w] = adderror(outputPixels[off + 2 * w], err);
             }
