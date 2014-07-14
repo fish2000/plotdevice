@@ -24,7 +24,8 @@
 }
 
 - (void)STDOUT:(NSString *)string, ... {
-    NSString *out = [NSString stringWithFormat:@"[%@] %@", [self className], string];
+    NSString *out = [NSString stringWithFormat:@"[%@] %@",
+        [self className], string];
     va_list args;
     
     va_start(args, string);
@@ -37,7 +38,8 @@
 }
 
 - (void)STDERR:(NSString *)string, ... {
-    NSString *err = [NSString stringWithFormat:@"[%@] ERROR: %@", [self className], string];
+    NSString *err = [NSString stringWithFormat:@"[%@] ERROR: %@",
+        [self className], string];
     va_list args;
     
     va_start(args, string);

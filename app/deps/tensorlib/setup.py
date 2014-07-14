@@ -32,7 +32,6 @@ filters = find_filters()
 sources = ['module.m', 'filters/FilterBase.m']
 sources.extend(get_sources(filters))
 
-#pprint(sources)
 print('Building tensorlib with %d filters:' % len(filters))
 pprint(sorted(filters.keys()))
 

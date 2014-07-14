@@ -11,7 +11,6 @@
 #import <GPUImage/GPUImage.h>
 
 @interface FilterBase : NSObject {
-    /// GENERIC FILTER PLACEHOLDER
     GPUImageFilter *filter;
 }
 
