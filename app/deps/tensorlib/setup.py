@@ -11,6 +11,7 @@ tensorlib = Extension('tensorlib',
     sources=[
         'module.m',
         'FilterBase.m',
+        'GrayscaleFilter.m',
         'ColorInvertFilter.m',
         'HalftoneFilter.m',
         'MissEtikateFilter.m',
