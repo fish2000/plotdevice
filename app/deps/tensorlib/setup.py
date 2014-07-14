@@ -46,9 +46,6 @@ tensorlib = Extension('tensorlib',
         '-F%s' % frameworks,
         '-framework', 'AppKit',
         '-framework', 'Foundation',
-        '-framework', 'Quartz',
-        '-framework', 'Security',
-        '-framework', 'CoreMedia',
         '-framework', 'GPUImage'])
 
 setup(name="tensorlib",
