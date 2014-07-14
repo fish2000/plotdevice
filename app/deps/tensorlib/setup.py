@@ -1,3 +1,6 @@
+from __future__ import print_function
+
+from pprint import pprint
 from os import getcwd, walk
 from os.path import splitext, dirname, join
 from setuptools import setup
@@ -8,7 +11,6 @@ gpuimage_libs = join(frameworks,  'GPUImage.framework', 'Versions', 'A')
 gpuimage_headers = join(gpuimage_libs, 'Headers')
 
 def find_filters(base_path="filters"):
-    #filters = dict(filterbase=join(base_path, "FilterBase"))
     filters = dict()
     for root_path, dirs, files in walk(base_path):
         for file_name in files:
@@ -30,14 +32,15 @@ filters = find_filters()
 sources = ['module.m', 'filters/FilterBase.m']
 sources.extend(get_sources(filters))
 
-from pprint import pprint
-pprint(filters)
-pprint(sources)
+#pprint(sources)
+print('Building tensorlib with %d filters:' % len(filters))
+pprint(sorted(filters.keys()))
 
 tensorlib = Extension('tensorlib',
     sources=sources,
     extra_compile_args=[
         '-Wno-error=unused-command-line-argument-hard-error-in-future',
+        '-Wno-unused-function',
         '-Qunused-arguments',
         '-F%s' % frameworks],
     extra_link_args=[

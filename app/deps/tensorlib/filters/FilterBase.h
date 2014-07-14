@@ -19,5 +19,7 @@
 
 - (id)init;
 - (NSImage *)process:(NSImage *)input;
+- (void)STDOUT:(NSString *)string, ...;
+- (void)STDERR:(NSString *)string, ...;
 
 @end

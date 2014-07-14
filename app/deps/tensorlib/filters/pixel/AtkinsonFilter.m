@@ -87,12 +87,13 @@ unsigned char *atkinson(unsigned char *inputPixels, int w, int h, int len) {
         for (i = 128; i < 256; i++) {
             threshold[i] = 0xFF;
         }
-        filter = (GPUImageFilter *)[[GPUImageGrayscaleFilter alloc] init];
+        filter = (GPUImageFilter *)[[GPUImageMonochromeFilter alloc] init];
     }
     return self;
 }
 
 - (NSImage *)process:(NSImage *)input {
+    [self STDOUT:@"Preprocessing atkinson filter image"];
     NSImage *inputGrayscale = [filter imageByFilteringImage:input];
     NSBitmapImageRep *inputRep = [NSBitmapImageRep
                                     imageRepWithData:[
@@ -102,14 +103,16 @@ unsigned char *atkinson(unsigned char *inputPixels, int w, int h, int len) {
     int h = (int)[inputRep pixelsHigh];
     long length = (long)(w * h);
     
-    NSImage *output = [[NSImage alloc] initWithSize:NSMakeSize(w, h)];
+    [self STDOUT:@"About to call atkinson():"];
+    [self STDOUT:@"      WIDTH = %i, HEIGHT = %i, LENGTH = %li",
+        w, h, length];
     unsigned char *inputData = [inputRep bitmapData];
     unsigned char *outputData = atkinson(inputData, w, h, length);
     
     if (outputData == NULL) {
-        NSLog(@"Bad dimensions passed to atkinson():");
-        NSLog(@"    WIDTH = %i, HEIGHT = %i, LENGTH = %li",
-            w, h, length);
+        [self STDERR:@"Bad dimensions passed to atkinson():"];
+        [self STDERR:@"    WIDTH = %i, HEIGHT = %i, LENGTH = %li",
+            w, h, length];
         return inputGrayscale;
     }
     
@@ -117,6 +120,8 @@ unsigned char *atkinson(unsigned char *inputPixels, int w, int h, int len) {
     NSBitmapImageRep *outputRep = [NSBitmapImageRep
                                     imageRepWithData:outputWrappedData];
     
+    [self STDOUT:@"About to return atkinson-ized image"];
+    NSImage *output = [[NSImage alloc] initWithSize:NSMakeSize(w, h)];
     [output addRepresentation:outputRep];
     return output;
 }

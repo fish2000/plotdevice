@@ -9,7 +9,6 @@
 #import "FilterBase.h"
 
 @implementation FilterBase
-
 @synthesize filter;
 
 - (id)init {
@@ -22,6 +21,32 @@
 
 - (NSImage *)process:(NSImage *)input {
     return [filter imageByFilteringImage:input];
+}
+
+- (void)STDOUT:(NSString *)string, ... {
+    NSString *out = [NSString stringWithFormat:@"[%@] %@", [self className], string];
+    va_list args;
+    
+    va_start(args, string);
+    NSLogv(out, args);
+    NSString *stdOutString = [[NSString alloc] initWithFormat:out arguments:args];
+    va_end(args);
+    
+    fprintf(stdout, "%s\n", [stdOutString UTF8String]);
+    [stdOutString release];
+}
+
+- (void)STDERR:(NSString *)string, ... {
+    NSString *err = [NSString stringWithFormat:@"[%@] ERROR: %@", [self className], string];
+    va_list args;
+    
+    va_start(args, string);
+    NSLogv(err, args);
+    NSString *stdErrString = [[NSString alloc] initWithFormat:err arguments:args];
+    va_end(args);
+    
+    fprintf(stderr, "%s\n", [stdErrString UTF8String]);
+    [stdErrString release];
 }
 
 @end
