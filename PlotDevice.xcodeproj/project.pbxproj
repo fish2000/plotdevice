@@ -494,6 +494,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "python=\"/usr/bin/python\"\nif [ -x /usr/local/bin/python ]; then\n    python=\"/usr/local/bin/python\"\nfi\n\n# let the setup script handle updating\neval \"${python} setup.py build\"\n\n# copy the up-to-date module contents into the app bundle\nEXT_DIR=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/python/\"\nmkdir -p $EXT_DIR\nditto build/lib/plotdevice \"$EXT_DIR/plotdevice\"\n\n# make sure everything has a .pyc (so code-signing doesn't break on first run)\neval \"${python} -m compileall ${EXT_DIR}/plotdevice\"";
+			showEnvVarsInLog = 0;
 		};
 		CF093DD3196E06E200B00802 /* Symlink PlotDevice.app/Contents/Frameworks as PlotDevice.app/Contents/Resources/python/plotdevice/Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -507,7 +508,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\n#app=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\nframeworks=\"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\nresources=\"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\nplotdevice=\"${resources}/python/plotdevice\"\n\n/usr/local/bin/terminal-notifier -message \"Running RELEASE Post-Build Actions\"\n\nset +x\nsource ${SOURCE_ROOT}/etc/relpath.sh\n\npushd $plotdevice\n[ ! -L \"${plotdevice}/Frameworks\" ] && /bin/ln -s `relpath $plotdevice $frameworks` Frameworks\n\n";
+			shellScript = "\n#app=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\nframeworks=\"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\nresources=\"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\nplotdevice=\"${resources}/python/plotdevice\"\n\n#/usr/local/bin/terminal-notifier -message \"Running RELEASE Post-Build Actions\"\n\nset +x\nsource ${SOURCE_ROOT}/etc/relpath.sh\n\npushd $plotdevice\n[ ! -L \"${plotdevice}/Frameworks\" ] && /bin/ln -s `relpath $plotdevice $frameworks` Frameworks\n\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
