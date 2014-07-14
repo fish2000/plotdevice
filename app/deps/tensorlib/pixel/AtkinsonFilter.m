@@ -93,20 +93,29 @@ unsigned char *atkinson(unsigned char *inputPixels, int w, int h, int len) {
 }
 
 - (NSImage *)process:(NSImage *)input {
+    NSImage *inputGrayscale = [filter imageByFilteringImage:input];
     NSBitmapImageRep *inputRep = [NSBitmapImageRep
                                     imageRepWithData:[
-                                        [filter imageByFilteringImage:input]
-                                            TIFFRepresentation]];
+                                        inputGrayscale TIFFRepresentation]];
     
     int w = (int)[inputRep pixelsWide];
     int h = (int)[inputRep pixelsHigh];
+    long length = (long)(w * h);
+    
     NSImage *output = [[NSImage alloc] initWithSize:NSMakeSize(w, h)];
     unsigned char *inputData = [inputRep bitmapData];
-    unsigned char *outputData = atkinson(inputData, w, h, w*h);
+    unsigned char *outputData = atkinson(inputData, w, h, length);
     
-    NSData *outputWrappedData = [NSData dataWithBytes:outputData length:(w*h)];
+    if (outputData == NULL) {
+        NSLog(@"Bad dimensions passed to atkinson():");
+        NSLog(@"    WIDTH = %i, HEIGHT = %i, LENGTH = %li",
+            w, h, length);
+        return inputGrayscale;
+    }
+    
+    NSData *outputWrappedData = [NSData dataWithBytes:outputData length:length];
     NSBitmapImageRep *outputRep = [NSBitmapImageRep
-                                        imageRepWithData:outputWrappedData];
+                                    imageRepWithData:outputWrappedData];
     
     [output addRepresentation:outputRep];
     return output;
