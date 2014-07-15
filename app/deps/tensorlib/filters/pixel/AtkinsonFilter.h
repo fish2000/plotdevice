@@ -21,7 +21,7 @@
 static unsigned char threshold[256];
 
 /// forward declaration of the bytearray-level atkinson function
-unsigned char *atkinson(unsigned char *pixels, int w, int h, int len);
+unsigned char *atkinson(unsigned char *pixels, int w, int h, int bpp, int len);
 
 /// FilterBase subclass boilerplate interface
 @interface AtkinsonFilter : FilterBase {}

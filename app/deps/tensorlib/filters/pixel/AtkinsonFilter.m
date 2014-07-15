@@ -12,7 +12,7 @@
 #import "AtkinsonFilter.h"
 
 /// bytearray-level atkinson pixel processing function
-unsigned char *atkinson(unsigned char *inputPixels, int w, int h, int len) {
+unsigned char *atkinson(unsigned char *inputPixels, int w, int h, int bpp, int len) {
     int x, y, off, err;
     unsigned char *outputPixels = malloc(sizeof(unsigned char) * len);
     unsigned char old, new;
@@ -23,7 +23,14 @@ unsigned char *atkinson(unsigned char *inputPixels, int w, int h, int len) {
         return NULL;
     }
     
-    memcpy(outputPixels, inputPixels, sizeof(sizeof(unsigned char) * len));
+    //memcpy(outputPixels, inputPixels, sizeof(unsigned char) * len * bpp);
+    memset(outputPixels, 0, sizeof(unsigned char) * len);
+    for (y = 0; y < h; y++) {
+        for (x = 0; x < w; x++) {
+            off = (y * w) + x;
+            outputPixels[off] = inputPixels[off * bpp];
+        }
+    }
     
     for (y = 0; y < h; y++) {
         for (x = 0; x < w; x++) {
@@ -77,7 +84,7 @@ unsigned char *atkinson(unsigned char *inputPixels, int w, int h, int len) {
         for (i = 128; i < 256; i++) {
             threshold[i] = 0xFF;
         }
-        filter = (GPUImageFilter *)[[GPUImageMonochromeFilter alloc] init];
+        filter = (GPUImageFilter *)[[GPUImageGrayscaleFilter alloc] init];
     }
     return self;
 }
@@ -91,13 +98,15 @@ unsigned char *atkinson(unsigned char *inputPixels, int w, int h, int len) {
     
     int w = (int)[inputRep pixelsWide];
     int h = (int)[inputRep pixelsHigh];
+    int bpp = (int)[inputRep bitsPerPixel] / 8;
     long length = (long)(w * h);
     
     [self STDOUT:@"About to call atkinson():"];
-    [self STDOUT:@"      WIDTH = %i, HEIGHT = %i, LENGTH = %li",
-        w, h, length];
+    
+    [self STDOUT:@"      WIDTH = %i, HEIGHT = %i, LENGTH = %li, BPP = %i",
+        w, h, length, bpp];
     unsigned char *inputData = [inputRep bitmapData];
-    unsigned char *outputData = atkinson(inputData, w, h, length);
+    unsigned char *outputData = atkinson(inputData, w, h, bpp, length);
     
     if (outputData == NULL) {
         [self STDERR:@"Bad dimensions passed to atkinson():"];
@@ -106,9 +115,17 @@ unsigned char *atkinson(unsigned char *inputPixels, int w, int h, int len) {
         return inputGrayscale;
     }
     
-    NSData *outputWrappedData = [NSData dataWithBytes:outputData length:length];
-    NSBitmapImageRep *outputRep = [NSBitmapImageRep
-                                    imageRepWithData:outputWrappedData];
+    NSBitmapImageRep *outputRep = [[[NSBitmapImageRep alloc]
+                                    initWithBitmapDataPlanes:&outputData
+                                    pixelsWide:w
+                                    pixelsHigh:h
+                                    bitsPerSample:8
+                                    samplesPerPixel:1
+                                    hasAlpha:NO
+                                    isPlanar:NO
+                                    colorSpaceName:NSCalibratedWhiteColorSpace
+                                    bytesPerRow:w
+                                    bitsPerPixel:8] autorelease];
     
     [self STDOUT:@"About to return atkinson-ized image"];
     NSImage *output = [[NSImage alloc] initWithSize:NSMakeSize(w, h)];
