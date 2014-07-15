@@ -2,6 +2,7 @@
 *.pyc
 *.so
 build/
+cache/
 dist/
 dist-*
 app/deps/Sparkle*

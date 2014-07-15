@@ -1,0 +1,3 @@
+#pyobjc==2.5.1
+pyobjc>=3.0.1
+Pillow
