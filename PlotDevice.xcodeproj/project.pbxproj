@@ -524,6 +524,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\n#echo \"YO DOGG\"\n\n#app=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\nframeworks=\"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\nresources=\"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\nplotdevice=\"${resources}/python/plotdevice\"\n\n#/usr/local/bin/terminal-notifier -message \"Running RELEASE Post-Build Actions\"\n\n#echo \"SOURCIN\"\nsource ${SOURCE_ROOT}/etc/relpath.sh\n\ncd $plotdevice\necho \"LINKIN\"\nif [ ! -h ${plotdevice}/Frameworks ]; then\n    /bin/ln -s `relpath $plotdevice $frameworks` Frameworks\nfi\n\n";
+			showEnvVarsInLog = 0;
 		};
 		CFC51073197545B90046C918 /* Install Wheelhouse Packages to App Bundle */ = {
 			isa = PBXShellScriptBuildPhase;
