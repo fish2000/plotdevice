@@ -19,28 +19,10 @@ All rights reserved.
 MIT Licensed (see README file for details)
 """
 
-__version__ = '0.9.2'
-__author__  = 'Christian Swinehart'
-__email__   = "drafting@samizdat.cc"
-__credits__ = 'Frederik De Bleser, Tom De Smedt, Just van Rossum, & Marcos Ojeda'
-__license__ = 'MIT'
-
 
 # add the shared directory (for Libraries) to the path
 import sys, re, os
 sys.path.append(os.path.join(os.getenv('HOME'), 'Library', 'Application Support', 'PlotDevice'))
-
-# add the Extras directory to sys.path since every module depends on PyObjC and friends
-try:
-    import objc
-except ImportError:
-    #extras = '/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python'
-    extras = sys.prefix
-    sys.path.extend([extras, '%s/PyObjC'%extras])
-    import objc
-
-# print python exceptions to the console rather than silently failing
-objc.setVerbose(True)
 
 # the global non-conflicting token (fingers crossed)
 INTERNAL = '_p_l_o_t_d_e_v_i_c_e_'
@@ -64,6 +46,18 @@ if is_windowed or in_setup:
     # global namespace. we'll let the Sandbox handle populating the namespace instead.
     __all__ = []
 else:
+    # add the Extras directory to sys.path since every module depends on PyObjC and friends
+    try:
+        import objc
+    except ImportError:
+        #extras = '/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python'
+        extras = sys.prefix
+        sys.path.extend([extras, '%s/PyObjC'%extras])
+        import objc
+
+    # print python exceptions to the console rather than silently failing
+    objc.setVerbose(True)
+
     # if imported from an external module, set up a drawing environment in __all__.
     # (note that since this happens at the module level, the canvas will be shared
     # among all the files in a given process that `import *`).

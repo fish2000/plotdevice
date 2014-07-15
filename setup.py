@@ -20,23 +20,28 @@
 # - cPathMatics, cGeo, cIO, cEvent, tensorlib, & polymagic (included in the "app/deps" folder)
 # - Sparkle.framework (auto-downloaded only for `dist` builds)
 
-import sys, os
+import sys, os, urllib2, plistlib
 from distutils.dir_util import remove_tree
+from distutils.spawn import find_executable as which
 from setuptools import setup, find_packages
 from pkg_resources import DistributionNotFound
-from os.path import join, exists, dirname, basename, abspath, relpath
-import plotdevice
-
+from os import listdir
+from os.path import join, exists, isdir, dirname, basename, abspath, relpath, getsize
 
 ## Metadata ##
+__version__ = '0.9.2'
+__author__  = 'Christian Swinehart'
+__email__   = "drafting@samizdat.cc"
+__credits__ = 'Frederik De Bleser, Tom De Smedt, Just van Rossum, & Marcos Ojeda'
+__license__ = 'MIT'
 
 # PyPI fields
 APP_NAME = 'PlotDevice'
 MODULE = APP_NAME.lower()
-VERSION = plotdevice.__version__
-AUTHOR = plotdevice.__author__
-AUTHOR_EMAIL = plotdevice.__email__
-LICENSE = plotdevice.__license__
+VERSION = __version__
+AUTHOR = __author__
+AUTHOR_EMAIL = __email__
+LICENSE = __license__
 URL = "http://plotdevice.io/"
 CLASSIFIERS = (
     "Development Status :: 5 - Production/Stable",
@@ -92,7 +97,6 @@ GPUIMAGE_VERSION = '0.1.5' # latest stable
 GPUIMAGE_URL = "https://github.com/BradLarson/GPUImage/archive/%(v)s.zip" % { 'v': GPUIMAGE_VERSION }
 
 # helpers for dealing with plists & git (spiritual cousins if ever there were)
-import plistlib
 def info_plist(pth='app/PlotDevice-Info.plist'):
     info = plistlib.readPlist(pth)
     # overwrite the xcode placeholder vars
@@ -143,7 +147,6 @@ def timestamp():
     now = utc.localize(datetime.utcnow()).astimezone(timezone('US/Eastern'))
     return now.strftime("%a, %d %b %Y %H:%M:%S %z")
 
-import urllib2
 def last_release():
     from xml.etree.ElementTree import fromstring
     feed_xml = urllib2.urlopen('http://plotdevice.io/app.xml').read().decode('utf-8')
@@ -190,10 +193,78 @@ class CleanCommand(Command):
     def initialize_options(self): pass
     def finalize_options(self): pass
     def run(self):
+        os.system('find . -iname .ds_store -print -delete')
+        os.system('find . -name \*.pyc -print -delete')
         os.system('rm -rf ./build ./dist')
         os.system('rm -rf ./Xcode/Build ./Xcode/Intermediates ./DerivedData')
         os.system('rm -rf ./app/deps/*/build')
         os.system('rm -rf plotdevice.egg-info MANIFEST.in PKG')
+
+class WheelhouseToApp(Command):
+    description = "Install PlotDevice.app requirements from the wheelhouse"
+    user_options = [
+        ('wheelhouse=', 'w', 'Wheelhouse directory [default: cache/wheelhouse/]'),
+        ('app=', 'a', 'App bundle directory [default: dist/PlotDevice.app/]')]
+    
+    def initialize_options(self):
+        self.wheelhouse = 'cache/wheelhouse/'
+        self.app = 'dist/PlotDevice.app'
+    
+    def finalize_options(self):
+        self.wheelhouse = abspath(self.wheelhouse)
+        self.app = abspath(self.app)
+    
+    def run(self):
+        ''' install wheels to app bundle '''
+        self.install_wheels()
+        print "done installing wheels"
+    
+    def install_wheels(self):
+        ''' Install everything from the wheelhouse '''
+        try:
+            from wheel.install import WheelFile
+        except ImportError:
+            print "ERROR: install `wheel` to enable bundle-local PyObjC"
+            return False
+        
+        #WHEELHOUSE = join('cache', 'wheelhouse')
+        WHEELHOUSE = self.wheelhouse
+        APP = self.app
+        DITTO = which('ditto')
+        
+        if not isdir(WHEELHOUSE):
+            print "ERROR: no wheelhouse directory at %s" % WHEELHOUSE
+            return False
+        
+        WHEELS = filter(
+            lambda wheel_file: wheel_file.lower().endswith('.whl'),
+            listdir(WHEELHOUSE))
+        PYOBJC_WHEELS = filter(
+            lambda wheel_file: wheel_file.lower().startswith('pyobjc'),
+            WHEELS)
+        
+        CONTENTS = join(APP, 'Contents')
+        RESOURCES = join(CONTENTS, 'Resources')
+        SITE_PACKAGES = join(RESOURCES, 'python')
+        HEADERS = join(RESOURCES, 'Headers') # wat
+        SCRIPTS = join(CONTENTS, 'SharedSupport')
+        OVERRIDES = dict(
+            purelib=SITE_PACKAGES, platlib=SITE_PACKAGES, data=SITE_PACKAGES,
+            headers=HEADERS, scripts=SCRIPTS)
+        
+        self.mkpath(HEADERS)
+        for pyobjc_wheel_file in sorted(PYOBJC_WHEELS):
+            print "+ Installing PyObjC wheel: %s" % pyobjc_wheel_file
+            PYOBJC_WHEEL = WheelFile(join(WHEELHOUSE, pyobjc_wheel_file))
+            PYOBJC_WHEEL.install(overrides=OVERRIDES, force=True)
+        
+        # misc.
+        self.spawn([DITTO,
+            join(SITE_PACKAGES, 'PyObjCTools'),
+            join(SITE_PACKAGES, 'PyObjC', 'PyObjCTools')])
+        self.spawn(['touch',
+            join(SITE_PACKAGES, 'PyObjC', 'PyObjCTools', '__init__.py')])
+        return True
 
 from setuptools.command.sdist import sdist
 class BuildDistCommand(sdist):
@@ -213,7 +284,6 @@ class BuildDistCommand(sdist):
         os.unlink('MANIFEST.in')
 
 from distutils.command.build_py import build_py
-from distutils.spawn import find_executable as which
 class BuildCommand(build_py):
     def run(self):
         # first let the real build_py routine do its thing
@@ -236,9 +306,13 @@ class BuildAppCommand(Command):
     user_options = []
     def initialize_options(self): pass
     def finalize_options(self): pass
+    #sub_commands = Command.sub_commands[:]
+    #sub_commands.append(('wheelhouse', lambda arg: True))
     def run(self):
         self.spawn(['xcodebuild'])
         remove_tree('dist/PlotDevice.app.dSYM')
+        for cmd in self.get_sub_commands():
+            self.run_command(cmd)
         print "done building PlotDevice.app in ./dist"
 
 try:
@@ -251,6 +325,10 @@ try:
         def finalize_options(self):
             self.verbose=0
             build_py2app.finalize_options(self)
+        
+        sub_commands = build_py2app.sub_commands[:]
+        sub_commands.append(('wheelhouse', lambda arg: True))
+        
         def run(self):
             #assert os.getcwd() == self.cwd, 'Must be in package root: %s' % self.cwd
             build_py2app.run(self)
@@ -304,6 +382,9 @@ try:
             # place the command line tool in SharedSupport
             self.copy_file("app/plotdevice", BIN)
 
+            for cmd in self.get_sub_commands():
+                self.run_command(cmd)
+
             # success!
             print "done building PlotDevice.app in ./dist"
 
@@ -330,6 +411,8 @@ class DistCommand(Command):
     user_options = []
     def initialize_options(self): pass
     def finalize_options(self): pass
+    sub_commands = Command.sub_commands[:]
+    sub_commands.append(('wheelhouse', lambda arg: True))
     def run(self):
         APP = 'dist/PlotDevice.app'
         ZIP = 'dist/PlotDevice_app-%s.zip' % VERSION
@@ -403,13 +486,16 @@ class DistCommand(Command):
         self.spawn(['spctl', '--assess', '-v', 'dist/PlotDevice.app'])
 
         # create versioned zipfile of the app
-        self.spawn([which('ditto'), '-ck', '--keepParent', APP, ZIP])
+        self.spawn([DITTO, '-ck', '--keepParent', APP, ZIP])
 
         # update the app.xml feed (pulled from the server)
-        release = dict(zipfile=basename(ZIP), bytes=os.path.getsize(ZIP),
+        release = dict(zipfile=basename(ZIP), bytes=getsize(ZIP),
                        version=VERSION, revision=last_commit(), now=timestamp())
         with file('dist/app.xml','w') as f:
             f.write(merged_feed(release))
+
+        for cmd in self.get_sub_commands():
+            self.run_command(cmd)
 
         print "\nBuilt PlotDevice.app, %s, and app.xml in ./dist" % basename(ZIP)
         print " -" + "\n -".join(commits_since(last_release(), raw=True))
@@ -419,83 +505,85 @@ class DistCommand(Command):
 class SubmitCommand(Command):
     description = "Validate contents of dist subdir then send them to the net"
     user_options = []
-    def initialize_options(self):
-        pass
-    def finalize_options(self):
-        pass
+    def initialize_options(self): pass
+    def finalize_options(self): pass
     def run(self):
         print "Checking feed xml"
         gosub('%s -xml -utf8 -e dist/app.xml' % which('tidy'),
             on_err="app.xml didn't validate properly")
 
-        zipfile = 'dist/PlotDevice_app-%s.zip'%VERSION
         from xml.etree.ElementTree import parse
+        zipfile = 'dist/PlotDevice_app-%s.zip' % VERSION
+        SCP = which('scp')
+
         for item in parse('dist/app.xml').getroot().iter('item'):
             release = item.find('enclosure').attrib
-            assert release['url'].endswith(basename(zipfile)), "Version mismatch: %s vs %r" % (zipfile, release['url'])
+            assert release['url'].endswith(basename(zipfile)), "Version mismatch: %s vs %r" % (
+                zipfile, release['url'])
             break
 
         # <confirmation y.n goes here>
 
         print "posting dist/app.xml"
-        gosub('%s dist/app.xml plotdevice.io:plod' % which('scp'))
+        gosub('%s dist/app.xml plotdevice.io:plod' % SCP)
 
         print "posting", zipfile
-        gosub('%s %s plotdevice.io:plod/app' % (which('scp'), zipfile))
+        gosub('%s %s plotdevice.io:plod/app' % (SCP, zipfile))
 
         # <upload to pypi goes here>
 
 ## Run Build ##
 
-if __name__=='__main__':
+if __name__ == '__main__':
     # make sure we're at the project root regardless of the cwd
     # (this means the various commands don't have to play path games)
     os.chdir(dirname(abspath(__file__)))
 
     # common config between module and app builds
     config = dict(
-        name = MODULE,
-        version = VERSION,
-        description = DESCRIPTION,
-        long_description = LONG_DESCRIPTION,
-        author = AUTHOR,
-        author_email = AUTHOR_EMAIL,
-        url = URL,
-        license = LICENSE,
-        classifiers = CLASSIFIERS,
-        packages = find_packages(),
-        scripts = ["app/plotdevice"],
+        name=MODULE,
+        version=VERSION,
+        description=DESCRIPTION,
+        long_description=LONG_DESCRIPTION,
+        author=AUTHOR,
+        author_email=AUTHOR_EMAIL,
+        url=URL,
+        license=LICENSE,
+        classifiers=CLASSIFIERS,
+        packages=find_packages(),
+        scripts=["app/plotdevice"],
+        setup_requires=['wheel>=0.24.0'],
         zip_safe=False,
         cmdclass={
             'app': BuildAppCommand,
+            'wheelhouse': WheelhouseToApp,
             'clean': CleanCommand,
             'build_py': BuildCommand,
             'dist': DistCommand,
             'sdist': BuildDistCommand,
             'submit': SubmitCommand,
-        },
-    )
+        })
 
     # py2app-specific config 
     # Note how we're not adding the GPUImage framework here,
     # despite what the paltry docs available, as regards
     # the subject of py2app and framework-addery,
     # seem to suggest -- we do it ourselves when executing
-    # the BuildPy2AppCommand stuf.
+    # the BuildPy2AppCommand stuff.
     if 'py2app' in sys.argv:
         config.update(dict(
-            app = [{
+            app=[{
                 'script': "app/plotdevice-app.py",
                 "plist": info_plist(),
             }],
-            data_files = [
+            data_files=[
                 "app/Resources/ui",
                 "app/Resources/English.lproj",
                 "app/Resources/PlotDevice.icns",
                 "app/Resources/PlotDeviceFile.icns",
                 "examples",
             ],
-            options = {
+            options={
                 "py2app": {
                     "iconfile": "app/Resources/PlotDevice.icns",
                     "semi_standalone": True,
@@ -504,10 +592,10 @@ if __name__=='__main__':
                 }
             },
             cmdclass={
+                'wheelhouse': WheelhouseToApp,
                 'build_py': BuildCommand,
                 'py2app': BuildPy2AppCommand,
-            }
-        ))
+            }))
 
     # begin the build process
     setup(**config)

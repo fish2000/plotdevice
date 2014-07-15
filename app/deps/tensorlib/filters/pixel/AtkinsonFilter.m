@@ -99,7 +99,7 @@ unsigned char *atkinson(unsigned char *inputPixels, int w, int h, int bpp, int l
     int w = (int)[inputRep pixelsWide];
     int h = (int)[inputRep pixelsHigh];
     int bpp = (int)[inputRep bitsPerPixel] / 8;
-    long length = (long)(w * h);
+    int length = w * h;
     
     [self STDOUT:@"About to call atkinson():"];
     [self STDOUT:@"      WIDTH = %i, HEIGHT = %i, LENGTH = %li, BPP = %i",

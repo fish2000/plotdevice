@@ -39,6 +39,10 @@
 		CF04731D196B71C200E3C358 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF04731C196B71C200E3C358 /* GPUImage.framework */; };
 		CF047321196B744C00E3C358 /* GPUImage.framework in Copy Private Frameworks */ = {isa = PBXBuildFile; fileRef = CF04731C196B71C200E3C358 /* GPUImage.framework */; };
 		CF29B4BE196C51B70092593E /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF29B4BC196C51410092593E /* Python.framework */; };
+		CFC5106F197545210046C918 /* pyobjc-patch-wheelhouse.sh in Resources */ = {isa = PBXBuildFile; fileRef = CFC5106B197545210046C918 /* pyobjc-patch-wheelhouse.sh */; };
+		CFC51070197545210046C918 /* urlcache.sh in Resources */ = {isa = PBXBuildFile; fileRef = CFC5106C197545210046C918 /* urlcache.sh */; };
+		CFC51071197545210046C918 /* download.sh in Resources */ = {isa = PBXBuildFile; fileRef = CFC5106D197545210046C918 /* download.sh */; };
+		CFC51072197545210046C918 /* requirements.txt in Resources */ = {isa = PBXBuildFile; fileRef = CFC5106E197545210046C918 /* requirements.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -167,8 +171,11 @@
 		8D15AC370486D014006FF6A4 /* PlotDevice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlotDevice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF04731C196B71C200E3C358 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = app/Frameworks/GPUImage.framework; sourceTree = SOURCE_ROOT; };
 		CF29B4BC196C51410092593E /* Python.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python.framework; path = /usr/local/Cellar/python/2.7.8/Frameworks/Python.framework; sourceTree = "<absolute>"; };
-		CF61A9FD196DF5DC00BDFF1D /* old-python-include-link-paths.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "old-python-include-link-paths.sh"; sourceTree = "<group>"; };
 		CF61A9FF196DF61600BDFF1D /* relpath.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = relpath.sh; sourceTree = "<group>"; };
+		CFC5106B197545210046C918 /* pyobjc-patch-wheelhouse.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "pyobjc-patch-wheelhouse.sh"; sourceTree = "<group>"; };
+		CFC5106C197545210046C918 /* urlcache.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = urlcache.sh; sourceTree = "<group>"; };
+		CFC5106D197545210046C918 /* download.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = download.sh; sourceTree = "<group>"; };
+		CFC5106E197545210046C918 /* requirements.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = requirements.txt; sourceTree = "<group>"; };
 		CFF92336196D31780095586A /* rtclass.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = rtclass.py; sourceTree = "<group>"; };
 		CFF92337196D31780095586A /* tensor.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = tensor.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -398,7 +405,10 @@
 		CF61A9FC196DF5DC00BDFF1D /* etc */ = {
 			isa = PBXGroup;
 			children = (
-				CF61A9FD196DF5DC00BDFF1D /* old-python-include-link-paths.sh */,
+				CFC5106B197545210046C918 /* pyobjc-patch-wheelhouse.sh */,
+				CFC5106C197545210046C918 /* urlcache.sh */,
+				CFC5106D197545210046C918 /* download.sh */,
+				CFC5106E197545210046C918 /* requirements.txt */,
 				CF61A9FF196DF61600BDFF1D /* relpath.sh */,
 			);
 			path = etc;
@@ -420,6 +430,7 @@
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
 				CF093DD3196E06E200B00802 /* Symlink PlotDevice.app/Contents/Frameworks as PlotDevice.app/Contents/Resources/python/plotdevice/Frameworks */,
+				CFC51073197545B90046C918 /* Install Wheelhouse Packages to App Bundle */,
 			);
 			buildRules = (
 			);
@@ -471,8 +482,12 @@
 				611CC5A010BA908C00B55455 /* PlotDeviceDocument.xib in Resources */,
 				611CC5A810BA919A00B55455 /* PlotDevicePreferences.xib in Resources */,
 				611CC68010BAA08300B55455 /* MainMenu.xib in Resources */,
+				CFC51070197545210046C918 /* urlcache.sh in Resources */,
 				611CC68710BAA0A600B55455 /* AskString.xib in Resources */,
 				2A7AF5C818D2AFAA00F8FFC2 /* examples in Resources */,
+				CFC51071197545210046C918 /* download.sh in Resources */,
+				CFC51072197545210046C918 /* requirements.txt in Resources */,
+				CFC5106F197545210046C918 /* pyobjc-patch-wheelhouse.sh in Resources */,
 				6155D9F413E2B79E00675A92 /* CHANGES.md in Resources */,
 				6155D9F513E2B79E00675A92 /* README.md in Resources */,
 			);
@@ -508,7 +523,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\n#app=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\nframeworks=\"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\nresources=\"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\nplotdevice=\"${resources}/python/plotdevice\"\n\n#/usr/local/bin/terminal-notifier -message \"Running RELEASE Post-Build Actions\"\n\nset +x\nsource ${SOURCE_ROOT}/etc/relpath.sh\n\npushd $plotdevice\n[ ! -L \"${plotdevice}/Frameworks\" ] && /bin/ln -s `relpath $plotdevice $frameworks` Frameworks\n\n";
+			shellScript = "\n#echo \"YO DOGG\"\n\n#app=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\nframeworks=\"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\nresources=\"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\nplotdevice=\"${resources}/python/plotdevice\"\n\n#/usr/local/bin/terminal-notifier -message \"Running RELEASE Post-Build Actions\"\n\n#echo \"SOURCIN\"\nsource ${SOURCE_ROOT}/etc/relpath.sh\n\ncd $plotdevice\necho \"LINKIN\"\nif [ ! -h ${plotdevice}/Frameworks ]; then\n    /bin/ln -s `relpath $plotdevice $frameworks` Frameworks\nfi\n\n";
+		};
+		CFC51073197545B90046C918 /* Install Wheelhouse Packages to App Bundle */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Install Wheelhouse Packages to App Bundle";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "python=\"/usr/bin/python\"\nif [ -x /usr/local/bin/python ]; then\npython=\"/usr/local/bin/python\"\nfi\n\n# let the setup script handle wheelhousing\neval \"${python} setup.py wheelhouse\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
