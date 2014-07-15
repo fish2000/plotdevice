@@ -288,7 +288,7 @@ if __name__ == '__main__':
     )
 """ % dict(python=PYTHON)
         bpython_script = join(SCRIPTS, 'bpython')
-        write(bpython_script, bpython_script_src.split('\n')) # WHAAAAAAAT
+        write(bpython_script, bpython_script_src.split('\n'))
         self.spawn(['chmod', '+x', bpython_script])
         return True
 

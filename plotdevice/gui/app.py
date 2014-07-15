@@ -118,10 +118,9 @@ class PlotDeviceAppDelegate(NSObject):
     @objc.IBAction
     def openTerminal_(self, sender):
         """ Open a Terminal.app window running bpython,
-           with the PlotDevice.app environment pre-loaded """
-        #print "[PlotDeviceAppDelegate openTerminal:sender] called"
+            with the PlotDevice.app environment pre-loaded """
+        # TODO: Bring new Terminal.app window to the fore
         TerminalApp = SBApplication.applicationWithBundleIdentifier_("com.apple.Terminal")
-        #if TerminalApp.isRunning():
         bundlePath = NSBundle.mainBundle().bundlePath()
         scriptPythonPath = ":".join(sys.path)
         scriptBPythonExecutable = "%s/Contents/SharedSupport/bpython" % bundlePath
