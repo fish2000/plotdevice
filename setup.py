@@ -26,7 +26,7 @@ from distutils.spawn import find_executable as which
 from distutils.file_util import write_file as write
 from setuptools import setup, find_packages
 from pkg_resources import DistributionNotFound
-from os import listdir
+from os import listdir, chdir, getcwd
 from os.path import join, exists, isdir, dirname, basename, abspath, relpath, getsize
 
 ## Metadata ##
@@ -200,6 +200,25 @@ class CleanCommand(Command):
         os.system('rm -rf ./Xcode/Build ./Xcode/Intermediates ./DerivedData')
         os.system('rm -rf ./app/deps/*/build')
         os.system('rm -rf plotdevice.egg-info MANIFEST.in PKG')
+
+class WheelhouseCache(Command):
+    description = "Cache wheels and wheel source"
+    user_options = [
+        ('clean', 'C', 'Clean wheelhouse and download cache')]
+    
+    def initialize_options(self):
+        self.clean = False
+    
+    def finalize_options(self):
+        self.clean = bool(self.clean)
+    
+    def run(self):
+        CACHE = join(getcwd(), 'cache')
+        CACHE_SCRIPT = join(getcwd(), 'etc', 'load-cache.sh')
+        if self.clean:
+            remove_tree(CACHE)
+            return
+        self.spawn([CACHE_SCRIPT])
 
 class WheelhouseToApp(Command):
     description = "Install PlotDevice.app requirements from the wheelhouse"
@@ -389,12 +408,12 @@ try:
             # but so we need this symlink to compensate for the difference
             # in the relative location of GPUImage.framework in the project tree,
             # _qua_ the application bundle, vis-a-vis the extensions in question
-            CAMEFROM = os.getcwd()
-            os.chdir(PLOTDEVICE)
+            CAMEFROM = getcwd()
+            chdir(PLOTDEVICE)
             self.spawn([LN, '-s',
                 relpath(FRAMEWORKS, start=PLOTDEVICE),
                 relpath(FAKEWORKS,  start=PLOTDEVICE)])
-            os.chdir(CAMEFROM)
+            chdir(CAMEFROM)
 
             # discard the eggery-pokery
             remove_tree(join(RSRC, 'lib'), dry_run=self.dry_run)
@@ -578,6 +597,7 @@ if __name__ == '__main__':
         zip_safe=False,
         cmdclass={
             'app': BuildAppCommand,
+            'wheelcache': WheelhouseCache,
             'wheelhouse': WheelhouseToApp,
             'clean': CleanCommand,
             'build_py': BuildCommand,
@@ -614,6 +634,7 @@ if __name__ == '__main__':
                 }
             },
             cmdclass={
+                'wheelcache': WheelhouseCache,
                 'wheelhouse': WheelhouseToApp,
                 'build_py': BuildCommand,
                 'py2app': BuildPy2AppCommand,

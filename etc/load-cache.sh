@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
+SCRIPT_DIR="$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)" # http://stackoverflow.com/a/246128/298171
+PLOTDEVICE=`dirname $SCRIPT_DIR`
+cd $PLOTDEVICE
+
 PRAXA_DOWNLOAD_CACHE="cache/downloads"
-WHEELHOUSE="${PWD}/cache/wheelhouse"
+WHEELHOUSE="${PLOTDEVICE}/cache/wheelhouse"
 mkdir -p $PRAXA_DOWNLOAD_CACHE
 mkdir -p $WHEELHOUSE
 mkdir -p build
@@ -87,7 +91,7 @@ source $PYOBJC_VIRTUALENV/bin/activate
 cd $PYOBJC_DIR/pyobjc-core && pip install --verbose --no-deps .
 cd $PYOBJC_DIR/pyobjc && pip install --verbose .
 
-########## WHEELHOUSE ######################################################################
+########## WHEELHOUSE: PYOBJC ##############################################################
 
 pip install -U wheel
 
@@ -99,3 +103,9 @@ for name in "${names[@]}"; do
     cd "pyobjc-framework-${name}" && \
     pip wheel --verbose --no-deps -w $WHEELHOUSE .
 done
+
+########## WHEELHOUSE: OTHER ###############################################################
+
+cd $PLOTDEVICE
+pip wheel --verbose -w $WHEELHOUSE -r "${SCRIPT_DIR}/required-wheels.txt"
+
