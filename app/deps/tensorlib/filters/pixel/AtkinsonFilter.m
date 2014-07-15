@@ -102,7 +102,6 @@ unsigned char *atkinson(unsigned char *inputPixels, int w, int h, int bpp, int l
     long length = (long)(w * h);
     
     [self STDOUT:@"About to call atkinson():"];
-    
     [self STDOUT:@"      WIDTH = %i, HEIGHT = %i, LENGTH = %li, BPP = %i",
         w, h, length, bpp];
     unsigned char *inputData = [inputRep bitmapData];

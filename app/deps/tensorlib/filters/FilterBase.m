@@ -24,6 +24,7 @@
 }
 
 - (void)STDOUT:(NSString *)string, ... {
+#ifdef TENSORLIB_STDOUT
     NSString *out = [NSString stringWithFormat:@"[%@] %@",
         [self className], string];
     va_list args;
@@ -35,9 +36,11 @@
     
     fprintf(stdout, "%s\n", [stdOutString UTF8String]);
     [stdOutString release];
+#endif
 }
 
 - (void)STDERR:(NSString *)string, ... {
+#ifdef TENSORLIB_STDERR
     NSString *err = [NSString stringWithFormat:@"[%@] ERROR: %@",
         [self className], string];
     va_list args;
@@ -49,6 +52,7 @@
     
     fprintf(stderr, "%s\n", [stdErrString UTF8String]);
     [stdErrString release];
+#endif
 }
 
 @end

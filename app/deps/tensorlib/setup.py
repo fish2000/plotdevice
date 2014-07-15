@@ -42,6 +42,8 @@ tensorlib = Extension('tensorlib',
         '-Wno-error=unused-command-line-argument-hard-error-in-future',
         '-Wno-unused-function',
         '-Qunused-arguments',
+        '-DTENSORLIB_STDOUT',
+        '-DTENSORLIB_STDERR',
         '-F%s' % frameworks],
     extra_link_args=[
         '-Wno-error=unused-command-line-argument-hard-error-in-future',
