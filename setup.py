@@ -306,13 +306,9 @@ class BuildAppCommand(Command):
     user_options = []
     def initialize_options(self): pass
     def finalize_options(self): pass
-    #sub_commands = Command.sub_commands[:]
-    #sub_commands.append(('wheelhouse', lambda arg: True))
     def run(self):
         self.spawn(['xcodebuild'])
         remove_tree('dist/PlotDevice.app.dSYM')
-        for cmd in self.get_sub_commands():
-            self.run_command(cmd)
         print "done building PlotDevice.app in ./dist"
 
 try:
