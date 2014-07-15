@@ -38,6 +38,7 @@
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		CF04731D196B71C200E3C358 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF04731C196B71C200E3C358 /* GPUImage.framework */; };
 		CF047321196B744C00E3C358 /* GPUImage.framework in Copy Private Frameworks */ = {isa = PBXBuildFile; fileRef = CF04731C196B71C200E3C358 /* GPUImage.framework */; };
+		CF0CB1E21975B76A00511DC8 /* plotdevice-term.py in Resources */ = {isa = PBXBuildFile; fileRef = CF0CB1E11975B76A00511DC8 /* plotdevice-term.py */; };
 		CF29B4BE196C51B70092593E /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF29B4BC196C51410092593E /* Python.framework */; };
 		CFC5106F197545210046C918 /* pyobjc-patch-wheelhouse.sh in Resources */ = {isa = PBXBuildFile; fileRef = CFC5106B197545210046C918 /* pyobjc-patch-wheelhouse.sh */; };
 		CFC51070197545210046C918 /* urlcache.sh in Resources */ = {isa = PBXBuildFile; fileRef = CFC5106C197545210046C918 /* urlcache.sh */; };
@@ -170,6 +171,7 @@
 		6155D9F313E2B79E00675A92 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* PlotDevice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlotDevice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF04731C196B71C200E3C358 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = app/Frameworks/GPUImage.framework; sourceTree = SOURCE_ROOT; };
+		CF0CB1E11975B76A00511DC8 /* plotdevice-term.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = "plotdevice-term.py"; path = "app/plotdevice-term.py"; sourceTree = "<group>"; };
 		CF29B4BC196C51410092593E /* Python.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python.framework; path = /usr/local/Cellar/python/2.7.8/Frameworks/Python.framework; sourceTree = "<absolute>"; };
 		CF61A9FF196DF61600BDFF1D /* relpath.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = relpath.sh; sourceTree = "<group>"; };
 		CFC5106B197545210046C918 /* pyobjc-patch-wheelhouse.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "pyobjc-patch-wheelhouse.sh"; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				CF0CB1E11975B76A00511DC8 /* plotdevice-term.py */,
 				2ABDB7671867D8160069EFC3 /* plotdevice-app.py */,
 				2ABDB7681867D8160069EFC3 /* main.m */,
 				2ABDB7691867D8160069EFC3 /* PlotDevice_Prefix.pch */,
@@ -476,6 +479,7 @@
 				2ABDB76E1867D8BB0069EFC3 /* plotdevice-app.py in Resources */,
 				611CC49810BA8B9E00B55455 /* Credits.rtf in Resources */,
 				611CC49C10BA8B9E00B55455 /* InfoPlist.strings in Resources */,
+				CF0CB1E21975B76A00511DC8 /* plotdevice-term.py in Resources */,
 				611CC4A110BA8B9E00B55455 /* PlotDevice.icns in Resources */,
 				2A93AE751903326E00C6144D /* placeholder.pdf in Resources */,
 				611CC4A210BA8B9E00B55455 /* PlotDeviceFile.icns in Resources */,

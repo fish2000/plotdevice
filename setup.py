@@ -23,6 +23,7 @@
 import sys, os, urllib2, plistlib
 from distutils.dir_util import remove_tree
 from distutils.spawn import find_executable as which
+from distutils.file_util import write_file as write
 from setuptools import setup, find_packages
 from pkg_resources import DistributionNotFound
 from os import listdir
@@ -231,6 +232,7 @@ class WheelhouseToApp(Command):
         WHEELHOUSE = self.wheelhouse
         APP = self.app
         DITTO = which('ditto')
+        PYTHON = which('python')
         
         if not isdir(WHEELHOUSE):
             print "ERROR: no wheelhouse directory at %s" % WHEELHOUSE
@@ -242,6 +244,8 @@ class WheelhouseToApp(Command):
         PYOBJC_WHEELS = filter(
             lambda wheel_file: wheel_file.lower().startswith('pyobjc'),
             WHEELS)
+        OTHER_WHEELS = sorted(list(
+            set(WHEELS) - set(PYOBJC_WHEELS)))
         
         CONTENTS = join(APP, 'Contents')
         RESOURCES = join(CONTENTS, 'Resources')
@@ -253,17 +257,39 @@ class WheelhouseToApp(Command):
             headers=HEADERS, scripts=SCRIPTS)
         
         self.mkpath(HEADERS)
+        
         for pyobjc_wheel_file in sorted(PYOBJC_WHEELS):
             print "+ Installing PyObjC wheel: %s" % pyobjc_wheel_file
-            PYOBJC_WHEEL = WheelFile(join(WHEELHOUSE, pyobjc_wheel_file))
-            PYOBJC_WHEEL.install(overrides=OVERRIDES, force=True)
+            wheel = WheelFile(join(WHEELHOUSE, pyobjc_wheel_file))
+            wheel.install(overrides=OVERRIDES, force=True)
         
-        # misc.
+        for wheel_file in sorted(OTHER_WHEELS):
+            print "+ Installing wheel: %s" % wheel_file
+            wheel = WheelFile(join(WHEELHOUSE, wheel_file))
+            wheel.install(overrides=OVERRIDES, force=True)
+        
+        # misc. patching (this should obvi be in pyobjc-patch-wheelhouse.sh
+        # ... or better yet fixed in the fucking upstream repository)
         self.spawn([DITTO,
             join(SITE_PACKAGES, 'PyObjCTools'),
             join(SITE_PACKAGES, 'PyObjC', 'PyObjCTools')])
         self.spawn(['touch',
             join(SITE_PACKAGES, 'PyObjC', 'PyObjCTools', '__init__.py')])
+        
+        bpython_script_src = """#!%(python)s
+# EASY-INSTALL-ENTRY-SCRIPT: 'bpython==0.13','console_scripts','bpython'
+__requires__ = 'bpython==0.13'
+import sys
+from pkg_resources import load_entry_point
+
+if __name__ == '__main__':
+    sys.exit(
+        load_entry_point('bpython==0.13', 'console_scripts', 'bpython')()
+    )
+""" % dict(python=PYTHON)
+        bpython_script = join(SCRIPTS, 'bpython')
+        write(bpython_script, bpython_script_src.split('\n')) # WHAAAAAAAT
+        self.spawn(['chmod', '+x', bpython_script])
         return True
 
 from setuptools.command.sdist import sdist

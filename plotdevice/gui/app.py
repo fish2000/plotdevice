@@ -5,6 +5,7 @@ import objc
 from glob import glob
 from Foundation import *
 from AppKit import *
+from ScriptingBridge import SBApplication
 from PyObjCTools import AppHelper
 from .preferences import PlotDevicePreferencesController, get_default
 from . import bundle_path, set_timeout
@@ -113,6 +114,21 @@ class PlotDeviceAppDelegate(NSObject):
     def showSite_(self, sender):
         url = NSURL.URLWithString_("http://plotdevice.io/")
         NSWorkspace.sharedWorkspace().openURL_(url)
+
+    @objc.IBAction
+    def openTerminal_(self, sender):
+        """ Open a Terminal.app window running bpython,
+           with the PlotDevice.app environment pre-loaded """
+        #print "[PlotDeviceAppDelegate openTerminal:sender] called"
+        TerminalApp = SBApplication.applicationWithBundleIdentifier_("com.apple.Terminal")
+        #if TerminalApp.isRunning():
+        bundlePath = NSBundle.mainBundle().bundlePath()
+        scriptPythonPath = ":".join(sys.path)
+        scriptBPythonExecutable = "%s/Contents/SharedSupport/bpython" % bundlePath
+        scriptBPythonSetup = "%s/Contents/Resources/plotdevice-term.py" % bundlePath
+        scriptCommand = '''cd %s && PYTHONPATH="%s" %s -i %s && exit''' % (
+            bundlePath, scriptPythonPath, scriptBPythonExecutable, scriptBPythonSetup)
+        TerminalApp.doScript_in_(scriptCommand, None)
 
     def applicationWillTerminate_(self, note):
         import atexit

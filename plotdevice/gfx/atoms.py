@@ -213,6 +213,22 @@ class ColorMixin(Grob):
         self._strokecolor = None if args[0] is None else Color(*args)
     stroke = property(_get_stroke, _set_stroke)
 
+# class ManagedColorMixin(Grob):
+#     ctxAttrs = ('_renderprofile', '_proofprofile')
+#     stateAttrs = ('_inputprofile',)
+#     opts = ('render', 'input', 'proof',)
+#     
+#     def __init__(self, **kwargs):
+#         super(ManagedColorMixin, self).__init__(**kwargs)
+#         for attr in ManagedColorMixin.opts:
+#             if attr in kwargs:
+#                 setattr(self, attr, kwargs[attr])
+#     
+#     def _get_renderprofile(self):
+#         return self._renderprofile
+#     def _set_renderprofile(self, profile=None):
+#         self._renderprofile = 'CGDisplayCopyColorSpace'
+
 class TransformMixin(Grob):
     """Mixin class for transformation support.
     Adds the _transform and _transformmode attributes to the class."""
