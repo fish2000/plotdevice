@@ -27,7 +27,7 @@ class ObjCAncestor(type):
 class RTClass(object):
     __metaclass__ = ObjCAncestor
 
-    def __new__(cls, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         """ Allow PyObjC-based RTClass subclasses to initialize pythonically e.g.
 
             nsarray = NSArray() # or:
@@ -38,29 +38,29 @@ class RTClass(object):
 
             nsarray = NSArray.alloc().initWithArray_(other_nsarray) # bah
             """
-        print("__new__ shit that's how I do shit: %s" % cls)
+        cls = self.__class__
         if hasattr(cls, '__rtbase__'):
             objc_cls = cls.__rtbase__
             init_method_name = kwargs.pop('init', 'init')
             if hasattr(objc_cls, 'alloc'):
-                print("ALLOC")
                 instance = objc_cls.alloc()
                 init_method = getattr(instance, init_method_name)
-                return init_method(*args)
-            if hasattr(objc_cls, 'init'):
-                print("INIT")
+                self.__rtinstance__ = init_method(*args)
+            elif hasattr(objc_cls, 'init'):
                 init_method = getattr(objc_cls, init_method_name)
-                return init_method(*args)
-        return object.__new__(cls, *args, **kwargs)
+                self.__rtinstance__ = init_method(*args)
+        object.__init__(self, *args, **kwargs)
 
     def __getattr__(self, attr):
         """ For unknown attributes that don't end in underscores,
             look for their underscored counterpart before bailing. """
         if not attr.endswith(OBJ_COLON):
             alt_attr = attr + OBJ_COLON
-            if hasattr(self, alt_attr):
-                return getattr(self, alt_attr)
+            if hasattr(self.__rtinstance__, alt_attr):
+                return getattr(self.__rtinstance__, alt_attr)
             raise AttributeError('%s (tried with underscore)' % attr)
+        if hasattr(self.__rtinstance__, attr):
+            return getattr(self.__rtinstance__, attr)
         raise AttributeError(attr)
 
     def __repr__(self):

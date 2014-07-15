@@ -3,7 +3,7 @@ from __future__ import print_function
 
 import objc, tensorlib
 from .rtclass import RTClass
-#from collections import defaultdict
+from collections import defaultdict
 
 class ColorInvertFilter(RTClass):
     """ Wrapper for tensorlib/ColorInvertFilter """
@@ -13,36 +13,71 @@ class HalftoneFilter(RTClass):
     """ Wrapper for tensorlib/HalftoneFilter """
     pass
 
-class MissEtikateFilter(RTClass):
-    """ Wrapper for tensorlib/MissEtikateFilter """
+class SoftEleganceFilter(RTClass):
+    """ Wrapper for tensorlib/SoftElegaceFilter """
     pass
 
-class PolkaDotFilter(RTClass):
-    """ Wrapper for tensorlib/PolkaDotFilter """
+class MissEtikateFilter(RTClass):
+    """ Wrapper for tensorlib/MissEtikateFilter """
     pass
 
 class SepiaFilter(RTClass):
     """ Wrapper for tensorlib/SepiaFilter """
     pass
 
-class SoftEleganceFilter(RTClass):
-    """ Wrapper for tensorlib/SoftElegaceFilter """
+class AtkinsonFilter(RTClass):
+    """ Wrapper for tensorlib/pixel/AtkinsonFilter """
     pass
 
 class VignetteFilter(RTClass):
     """ Wrapper for tensorlib/VignetteFilter """
     pass
 
-# NSUnknownColorSpaceModel = -1,
-NSColorSpaceModels = (
-    "NSGrayColorSpaceModel",
-    "NSRGBColorSpaceModel",
-    "NSCMYKColorSpaceModel",
-    "NSLABColorSpaceModel",
-    "NSDeviceNColorSpaceModel",
-    "NSIndexedColorSpaceModel",
-    "NSPatternColorSpaceModel"
-)
+class GrayscaleFilter(RTClass):
+    """ Wrapper for tensorlib/GrayscaleFilter """
+    pass
+
+class PolkaDotFilter(RTClass):
+    """ Wrapper for tensorlib/PolkaDotFilter """
+    pass
+
+def split_abbreviations(s):
+    abbreviations = []
+    current_token = ''
+    for char in s:
+        if current_token is '':
+            current_token += char
+        elif char.islower():
+            current_token += char
+        else:
+            abbreviations.append(str(current_token))
+            current_token = ''
+            current_token += char
+    if current_token is not '':
+        abbreviations.append(str(current_token))
+    return abbreviations
+
+COLORSPACE_MODES = defaultdict(lambda: 'Unknown', {
+    'L': "Gray",
+    'Gray': "Gray",
+    
+    'RGB': "RGB",
+    'CMYK': "CMYK",
+    'LAB': "LAB",
+    
+    'NCL': "DeviceN",
+    'NCL2': "DeviceN",
+    'DeviceN': "DeviceN",
+    
+    'P': "Indexed",
+    'Indexed': "Indexed",
+    
+    'PAT': "Pattern",
+    'PPAT': "Pattern",
+    'Pattern': "Pattern",
+})
+
+COLORSPACE_MODEL = lambda midx: "NS%sColorSpaceModel" % COLORSPACE_MODES[midx]
 
 class Pipe(list):
     """ A linear pipeline of processors to be applied en masse. """
@@ -62,7 +97,7 @@ class ChannelFork(defaultdict):
         - applies a channel-specific processor, or
         - applies a default processor. """
     
-    default_mode = 1 # 'NSRGBColorSpaceModel'
+    default_mode = 'RGB' # 'NSRGBColorSpaceModel'
     
     def __init__(self, default_factory, *args, **kwargs):
         if default_factory is None:
@@ -71,7 +106,7 @@ class ChannelFork(defaultdict):
             raise AttributeError(
                 "ChannelFork() requires a callable default_factory.")
         
-        self.channels = NSColorSpaceModels[int(kwargs.pop('mode', self.default_mode))]
+        self.channels = COLORSPACE_MODEL[kwargs.pop('mode', self.default_mode)]
         
         super(ChannelFork, self).__init__(default_factory, *args, **kwargs)
     
@@ -163,4 +198,3 @@ class ChannelOverprinter(ChannelFork):
         
         return super(ChannelOverprinter, clone).process(img)
 '''
-dir(tensorlib)
