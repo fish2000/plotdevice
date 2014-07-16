@@ -5,7 +5,7 @@ from contextlib import contextmanager, nested
 from collections import namedtuple
 
 from .util import _copy_attr, _copy_attrs, _flatten, trim_zeroes
-from .lib import geometry, pathmatics, tensor
+from .lib import geometry, pathmatics
 from .gfx.transform import Dimension
 from .gfx import *
 from . import gfx, lib, util, Halted, DeviceError
@@ -1072,23 +1072,6 @@ class Context(object):
 
     ### Image commands ###
 
-    def imagefilter(self, filterName):
-        className = "%sFilter" % filterName
-        imageFilter = None
-        try:
-            imageFilter = objc.lookUpClass(className).alloc().init()
-        except objc.nosuchclass_error:
-            pass
-        return imageFilter
-    
-    def _imagefilter(self, filterName):
-        return
-        if hasattr(tensor, filterName):
-            print "Loading %s" % filterName
-            AXFilter = getattr(tensor, filterName)
-            return AXFilter()
-        
-
     def image(self, *args, **kwargs):
         """Draw a bitmap or vector image
 
@@ -1107,13 +1090,14 @@ class Context(object):
         draw = kwargs.pop('plot', draw)
         
         imageFilter = kwargs.pop('filter', None)
-        imageFilterName = hasattr(imageFilter, 'className') and str(imageFilter.className()) or ''
+        #imageFilterName = hasattr(imageFilter, 'className') and str(imageFilter.className()) or ''
 
         img = Image(*args, **kwargs)
 
         if imageFilter and imageFilterName:
-            print "Applying image filter: %s" % imageFilterName
-            img.applyFilter(imageFilter)
+            pass
+            #print "Applying image filter: %s" % imageFilterName
+            #img.applyFilter(imageFilter)
 
         if draw:
             img.draw()

@@ -1,4 +1,4 @@
-import sys, warnings
+import sys
 from os.path import join, abspath, dirname, exists
 from pprint import pformat
 
@@ -14,7 +14,7 @@ if exists(join(module_root, 'app/PlotDevice-Info.plist')):
         raise RuntimeError(unbuilt)
 
 # test the sys.path by attempting to load the c-extensions
-# io, geometry, pathmatics, tensorlib -- (cIO.so, cGeometry.so, cPathmatics.so, & tensorlib.so)
+# io, geometry, pathmatics, -- (cIO.so, cGeometry.so & cPathmatics.so)
 notfound_tmpl = "Couldn't load extension: %s.so\nSearched in:\n%s\nto no avail..."
 notfound = lambda lib_name: notfound_tmpl % (
     lib_name, pformat(sys.path))
@@ -34,14 +34,8 @@ try:
 except ImportError:
     raise RuntimeError(notfound('cPathmatics'))
 
-try:
-    import tensorlib
-except ImportError:
-    #raise RuntimeError(notfound('tensorlib'))
-    warnings.warn(notfound('tensorlib'))
-
 # FUCKING FLAKE-EIGHT ENOUGH ALREADY FOR FUCK'S SAKE
-io = geometry = pathmatics = tensorlib = None
+io = geometry = pathmatics = None
 
 # allow Libraries to request a _ctx reference
 def register(module):

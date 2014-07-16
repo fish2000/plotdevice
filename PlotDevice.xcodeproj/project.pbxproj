@@ -36,8 +36,6 @@
 		6155D9F413E2B79E00675A92 /* CHANGES.md in Resources */ = {isa = PBXBuildFile; fileRef = 6155D9F213E2B79E00675A92 /* CHANGES.md */; };
 		6155D9F513E2B79E00675A92 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 6155D9F313E2B79E00675A92 /* README.md */; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		CF04731D196B71C200E3C358 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF04731C196B71C200E3C358 /* GPUImage.framework */; };
-		CF047321196B744C00E3C358 /* GPUImage.framework in Copy Private Frameworks */ = {isa = PBXBuildFile; fileRef = CF04731C196B71C200E3C358 /* GPUImage.framework */; };
 		CF0CB1E21975B76A00511DC8 /* plotdevice-term.py in Resources */ = {isa = PBXBuildFile; fileRef = CF0CB1E11975B76A00511DC8 /* plotdevice-term.py */; };
 		CF29B4BE196C51B70092593E /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF29B4BC196C51410092593E /* Python.framework */; };
 /* End PBXBuildFile section */
@@ -80,17 +78,6 @@
 				2ABDB7741867D9970069EFC3 /* plotdevice in Copy 'plotdevice' Tool */,
 			);
 			name = "Copy 'plotdevice' Tool";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CF04731E196B73F700E3C358 /* Copy Private Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				CF047321196B744C00E3C358 /* GPUImage.framework in Copy Private Frameworks */,
-			);
-			name = "Copy Private Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -154,8 +141,6 @@
 		611CC49310BA8B9E00B55455 /* PlotDevice.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = PlotDevice.icns; path = Resources/PlotDevice.icns; sourceTree = "<group>"; };
 		611CC49410BA8B9E00B55455 /* PlotDeviceFile.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = PlotDeviceFile.icns; path = Resources/PlotDeviceFile.icns; sourceTree = "<group>"; };
 		611CC4AF10BA8C1B00B55455 /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
-		611CC4BB10BA8C1B00B55455 /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
-		611CC4BC10BA8C1B00B55455 /* pathmatics.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = pathmatics.py; sourceTree = "<group>"; };
 		611CC4D710BA8C1B00B55455 /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
 		611CC4D910BA8C1B00B55455 /* kgp.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = kgp.py; sourceTree = "<group>"; };
 		611CC4DA10BA8C1B00B55455 /* ottobot.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = ottobot.py; sourceTree = "<group>"; };
@@ -166,7 +151,6 @@
 		6155D9F213E2B79E00675A92 /* CHANGES.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGES.md; sourceTree = "<group>"; };
 		6155D9F313E2B79E00675A92 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* PlotDevice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlotDevice.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CF04731C196B71C200E3C358 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = app/Frameworks/GPUImage.framework; sourceTree = SOURCE_ROOT; };
 		CF0CB1E11975B76A00511DC8 /* plotdevice-term.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = "plotdevice-term.py"; path = "app/plotdevice-term.py"; sourceTree = "<group>"; };
 		CF1C6CCE1975E87800C6C330 /* load-cache.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "load-cache.sh"; sourceTree = "<group>"; };
 		CF1C6CCF1975E87800C6C330 /* required-wheels.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "required-wheels.txt"; sourceTree = "<group>"; };
@@ -174,8 +158,6 @@
 		CF61A9FF196DF61600BDFF1D /* relpath.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = relpath.sh; sourceTree = "<group>"; };
 		CFC5106C197545210046C918 /* urlcache.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = urlcache.sh; sourceTree = "<group>"; };
 		CFC5106D197545210046C918 /* download.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = download.sh; sourceTree = "<group>"; };
-		CFF92336196D31780095586A /* rtclass.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = rtclass.py; sourceTree = "<group>"; };
-		CFF92337196D31780095586A /* tensor.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = tensor.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,7 +166,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF29B4BE196C51B70092593E /* Python.framework in Frameworks */,
-				CF04731D196B71C200E3C358 /* GPUImage.framework in Frameworks */,
 				2ABBB2FC18540246001C4E0A /* CoreVideo.framework in Frameworks */,
 				2ABBB2FE185402AC001C4E0A /* CoreMedia.framework in Frameworks */,
 				2ABBB2FA1854018B001C4E0A /* AVFoundation.framework in Frameworks */,
@@ -249,8 +230,6 @@
 			isa = PBXGroup;
 			children = (
 				2A32957218C59D0A00EEDD1C /* __init__.py */,
-				CFF92336196D31780095586A /* rtclass.py */,
-				CFF92337196D31780095586A /* tensor.py */,
 				2A32957518C59D0A00EEDD1C /* geometry.py */,
 				2A32957718C59D0A00EEDD1C /* io.py */,
 				2A32957918C59D0A00EEDD1C /* pathmatics.py */,
@@ -310,7 +289,6 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CF04731C196B71C200E3C358 /* GPUImage.framework */,
 				2AEE843D18B5603900CF91D4 /* CoreText.framework */,
 				2A15C42C18A1FA14006BDFF0 /* WebKit.framework */,
 				2A591FEF185C17D200D1833D /* Security.framework */,
@@ -358,21 +336,11 @@
 				2AC07CD818EF8EC500B75879 /* context.py */,
 				2AC07CB518EF8E7D00B75879 /* gfx */,
 				2A32957118C59D0A00EEDD1C /* lib */,
-				611CC4BA10BA8C1B00B55455 /* geo */,
 				611CC4C410BA8C1B00B55455 /* gui */,
 				2A294457185E539400E9F650 /* run */,
 				611CC4D610BA8C1B00B55455 /* util */,
 			);
 			path = plotdevice;
-			sourceTree = "<group>";
-		};
-		611CC4BA10BA8C1B00B55455 /* geo */ = {
-			isa = PBXGroup;
-			children = (
-				611CC4BB10BA8C1B00B55455 /* __init__.py */,
-				611CC4BC10BA8C1B00B55455 /* pathmatics.py */,
-			);
-			path = geo;
 			sourceTree = "<group>";
 		};
 		611CC4C410BA8C1B00B55455 /* gui */ = {
@@ -420,7 +388,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "PlotDevice" */;
 			buildPhases = (
-				CF04731E196B73F700E3C358 /* Copy Private Frameworks */,
 				8D15AC2B0486D014006FF6A4 /* Resources */,
 				2A15C43718A20929006BDFF0 /* Copy Editor Assets */,
 				2A66ECEA18A99303002903DE /* Copy Editor Scripts */,
@@ -428,7 +395,6 @@
 				2ABDB76F1867D9560069EFC3 /* Copy 'plotdevice' Tool */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
-				CF093DD3196E06E200B00802 /* Symlink PlotDevice.app/Contents/Frameworks as PlotDevice.app/Contents/Resources/python/plotdevice/Frameworks */,
 				CFC51073197545B90046C918 /* Install Wheelhouse Packages to App Bundle */,
 			);
 			buildRules = (
@@ -505,21 +471,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "python=\"/usr/bin/python\"\nif [ -x /usr/local/bin/python ]; then\n    python=\"/usr/local/bin/python\"\nfi\n\n# let the setup script handle updating\neval \"${python} setup.py build\"\n\n# copy the up-to-date module contents into the app bundle\nEXT_DIR=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/python/\"\nmkdir -p $EXT_DIR\nditto build/lib/plotdevice \"$EXT_DIR/plotdevice\"\n\n# make sure everything has a .pyc (so code-signing doesn't break on first run)\neval \"${python} -m compileall ${EXT_DIR}/plotdevice\"";
-			showEnvVarsInLog = 0;
-		};
-		CF093DD3196E06E200B00802 /* Symlink PlotDevice.app/Contents/Frameworks as PlotDevice.app/Contents/Resources/python/plotdevice/Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Symlink PlotDevice.app/Contents/Frameworks as PlotDevice.app/Contents/Resources/python/plotdevice/Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\n#echo \"YO DOGG\"\n\n#app=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\nframeworks=\"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\nresources=\"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\nplotdevice=\"${resources}/python/plotdevice\"\n\n#/usr/local/bin/terminal-notifier -message \"Running RELEASE Post-Build Actions\"\n\n#echo \"SOURCIN\"\nsource ${SOURCE_ROOT}/etc/relpath.sh\n\ncd $plotdevice\necho \"LINKIN\"\nif [ ! -h ${plotdevice}/Frameworks ]; then\n    /bin/ln -s `relpath $plotdevice $frameworks` Frameworks\nfi\n\n";
 			showEnvVarsInLog = 0;
 		};
 		CFC51073197545B90046C918 /* Install Wheelhouse Packages to App Bundle */ = {

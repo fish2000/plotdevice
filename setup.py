@@ -17,7 +17,7 @@
 # - Mac OS X 10.9+
 # - py2app or xcode or just pip
 # - PyObjC (should be in /System/Library/Frameworks/Python.framework/Versions/2.7/Extras)
-# - cPathMatics, cGeo, cIO, cEvent, tensorlib, & polymagic (included in the "app/deps" folder)
+# - cPathMatics, cGeo, cIO, cEvent, & polymagic (included in the "app/deps" folder)
 # - Sparkle.framework (auto-downloaded only for `dist` builds)
 
 import sys, os, urllib2, plistlib
@@ -26,8 +26,8 @@ from distutils.spawn import find_executable as which
 from distutils.file_util import write_file as write
 from setuptools import setup, find_packages
 from pkg_resources import DistributionNotFound
-from os import listdir, chdir, getcwd
-from os.path import join, exists, isdir, dirname, basename, abspath, relpath, getsize
+from os import listdir, getcwd
+from os.path import join, exists, isdir, dirname, basename, abspath, getsize
 
 ## Metadata ##
 __version__ = '0.9.2'
@@ -92,10 +92,6 @@ Requires:
 # the sparkle updater framework will be fetched as needed
 SPARKLE_VERSION = '1.7.0'
 SPARKLE_URL = 'https://github.com/pornel/Sparkle/releases/download/%(v)s/Sparkle-%(v)s.tar.bz2'% { 'v': SPARKLE_VERSION }
-
-# ... as will the GPUImage framework source
-GPUIMAGE_VERSION = '0.1.5' # latest stable
-GPUIMAGE_URL = "https://github.com/BradLarson/GPUImage/archive/%(v)s.zip" % { 'v': GPUIMAGE_VERSION }
 
 # helpers for dealing with plists & git (spiritual cousins if ever there were)
 def info_plist(pth='app/PlotDevice-Info.plist'):
@@ -357,7 +353,6 @@ class BuildAppCommand(Command):
         print "done building PlotDevice.app in ./dist"
 
 try:
-    #import py2app
     from py2app.build_app import py2app as build_py2app
     class BuildPy2AppCommand(build_py2app):
         description = """Build PlotDevice.app with py2app (then undo some of its questionable layout defaults)"""
@@ -384,36 +379,16 @@ try:
             RSRC = self.resdir
             CONTENTS = dirname(RSRC)
             BIN = join(CONTENTS, 'SharedSupport')
-            FRAMEWORKS = join(CONTENTS, 'Frameworks')
-            GPUIMAGE = join(FRAMEWORKS, 'GPUImage.framework')
             MODULE = join(self.bdist_base, 'lib', 'plotdevice')
             PY = join(RSRC, 'python')
             PLOTDEVICE = join(PY, 'plotdevice')
-            FAKEWORKS = join(PLOTDEVICE, 'Frameworks') # YOU HAVE GOT TO BE FRIGGING KIDDING ME
             DITTO = which('ditto')
-            LN = which('ln')
 
-            for pth in BIN, GPUIMAGE, PY:
+            for pth in BIN, PY:
                 self.mkpath(pth)
 
             # install the module in Resources/python
             self.spawn([DITTO, MODULE, PLOTDEVICE])
-
-            # deposit a copy of GPUImage.framework in Frameworks
-            self.spawn([DITTO, 'app/Frameworks/GPUImage.framework', GPUIMAGE])
-
-            # compiling PyObjC extensions that link against GPUImage will,
-            # inevitably, hardcode the dynamic-link path in the output binaries
-            # -- HELLOOOOO?!? WHY is this a problem if it's "DYNAMIC" linking --
-            # but so we need this symlink to compensate for the difference
-            # in the relative location of GPUImage.framework in the project tree,
-            # _qua_ the application bundle, vis-a-vis the extensions in question
-            CAMEFROM = getcwd()
-            chdir(PLOTDEVICE)
-            self.spawn([LN, '-s',
-                relpath(FRAMEWORKS, start=PLOTDEVICE),
-                relpath(FAKEWORKS,  start=PLOTDEVICE)])
-            chdir(CAMEFROM)
 
             # discard the eggery-pokery
             remove_tree(join(RSRC, 'lib'), dry_run=self.dry_run)
@@ -488,41 +463,9 @@ class DistCommand(Command):
                 tar=which('tar'), fw=FRAMEWORKS))
         self.mkpath(dirname(SPARKLE))
         self.spawn([DITTO, ORIG, SPARKLE])
-        
-        # Download an GPUImage release and build it, copying the build product
-        # into the bundle. Brad Larson (the GPUImage guy) doesn't release binaries,
-        # so if we're minus the bundle we have to build ourselves a new one.
-        # See also: https://github.com/BradLarson/GPUImage/releases
-        ORIG = join(FRAMEWORKS, 'GPUImage.framework')
-        GPUIMAGE = join(APP, 'Contents', 'Frameworks', 'GPUImage.framework')
-        if not exists(ORIG):
-            print "Downloading GPUImage source"
-            import tempfile
-            tempdir = tempfile.mkdtemp(suffix='XXXXX')
-            os.system('%(curl)s -L %(url)s | %(tar)s xzf - -C %(temp)s' % dict(
-                curl=which('curl'), url=GPUIMAGE_URL,
-                tar=which('tar'), temp=tempdir))
-            GPUIMAGE_SOURCE = join(tempdir, 'GPUImage-%s' % GPUIMAGE_VERSION, 'framework')
-            GPUIMAGE_XCPROJECT = join(GPUIMAGE_SOURCE, 'GPUImageMac.xcodeproj')
-            GPUIMAGE_BUILT = join(GPUIMAGE_SOURCE, 'build', 'Release', 'GPUImage.framework')
-            if not exists(GPUIMAGE_SOURCE):
-                print "ERROR: there was a problem getting the GPUImage source"
-                sys.exit(1)
-            print "Building GPUImage.framework"
-            self.spawn([which('xcodebuild'),
-                '-project', GPUIMAGE_XCPROJECT,
-                '-scheme', 'GPUImage',
-                '-arch', 'x86_64'])
-            if not exists(GPUIMAGE_BUILT):
-                print "ERROR: there was a problem building the GPUImage source"
-                sys.exit(1)
-            self.spawn([DITTO, GPUIMAGE_BUILT, ORIG])
-            self.remove_tree(tempdir, dry_run=self.dry_run)
-        self.spawn([DITTO, ORIG, GPUIMAGE])
 
         # code-sign the app and sparkle bundles, then verify
         self.spawn(['codesign', '-f', '-v', '-s', "Developer ID Application", SPARKLE])
-        self.spawn(['codesign', '-f', '-v', '-s', "Developer ID Application", GPUIMAGE])
         self.spawn(['codesign', '-f', '-v', '-s', "Developer ID Application", APP])
         self.spawn(['spctl', '--assess', '-v', 'dist/PlotDevice.app'])
 
