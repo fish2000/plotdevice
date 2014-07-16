@@ -64,7 +64,7 @@ declare -a names=("AppleScriptKit" \
 "WebKit")
 #"XgridFoundation")
 
-PYOBJC_DIR=$PWD/$PYOBJC_BUILD_PATH
+PYOBJC_DIR=${PLOTDEVICE}/$PYOBJC_BUILD_PATH
 FIND="for fn in install_lib._install_lib.get_outputs(self):"
 REPLACE="for fn, _ in result.items():"
 

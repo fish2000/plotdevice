@@ -39,11 +39,7 @@
 		CF04731D196B71C200E3C358 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF04731C196B71C200E3C358 /* GPUImage.framework */; };
 		CF047321196B744C00E3C358 /* GPUImage.framework in Copy Private Frameworks */ = {isa = PBXBuildFile; fileRef = CF04731C196B71C200E3C358 /* GPUImage.framework */; };
 		CF0CB1E21975B76A00511DC8 /* plotdevice-term.py in Resources */ = {isa = PBXBuildFile; fileRef = CF0CB1E11975B76A00511DC8 /* plotdevice-term.py */; };
-		CF1C6CD01975E87800C6C330 /* load-cache.sh in Resources */ = {isa = PBXBuildFile; fileRef = CF1C6CCE1975E87800C6C330 /* load-cache.sh */; };
-		CF1C6CD11975E87800C6C330 /* required-wheels.txt in Resources */ = {isa = PBXBuildFile; fileRef = CF1C6CCF1975E87800C6C330 /* required-wheels.txt */; };
 		CF29B4BE196C51B70092593E /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF29B4BC196C51410092593E /* Python.framework */; };
-		CFC51070197545210046C918 /* urlcache.sh in Resources */ = {isa = PBXBuildFile; fileRef = CFC5106C197545210046C918 /* urlcache.sh */; };
-		CFC51071197545210046C918 /* download.sh in Resources */ = {isa = PBXBuildFile; fileRef = CFC5106D197545210046C918 /* download.sh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -483,15 +479,11 @@
 				611CC4A110BA8B9E00B55455 /* PlotDevice.icns in Resources */,
 				2A93AE751903326E00C6144D /* placeholder.pdf in Resources */,
 				611CC4A210BA8B9E00B55455 /* PlotDeviceFile.icns in Resources */,
-				CF1C6CD11975E87800C6C330 /* required-wheels.txt in Resources */,
 				611CC5A010BA908C00B55455 /* PlotDeviceDocument.xib in Resources */,
 				611CC5A810BA919A00B55455 /* PlotDevicePreferences.xib in Resources */,
 				611CC68010BAA08300B55455 /* MainMenu.xib in Resources */,
-				CFC51070197545210046C918 /* urlcache.sh in Resources */,
 				611CC68710BAA0A600B55455 /* AskString.xib in Resources */,
 				2A7AF5C818D2AFAA00F8FFC2 /* examples in Resources */,
-				CFC51071197545210046C918 /* download.sh in Resources */,
-				CF1C6CD01975E87800C6C330 /* load-cache.sh in Resources */,
 				6155D9F413E2B79E00675A92 /* CHANGES.md in Resources */,
 				6155D9F513E2B79E00675A92 /* README.md in Resources */,
 			);
