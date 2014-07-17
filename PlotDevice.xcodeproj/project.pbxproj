@@ -24,7 +24,7 @@
 		2ABBB2FE185402AC001C4E0A /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ABBB2FD185402AC001C4E0A /* CoreMedia.framework */; };
 		2ABDB76B1867D8160069EFC3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABDB7681867D8160069EFC3 /* main.m */; };
 		2ABDB76E1867D8BB0069EFC3 /* plotdevice-app.py in Resources */ = {isa = PBXBuildFile; fileRef = 2ABDB7671867D8160069EFC3 /* plotdevice-app.py */; };
-		2ABDB7741867D9970069EFC3 /* plotdevice in Copy 'plotdevice' Tool */ = {isa = PBXBuildFile; fileRef = 2ABDB7721867D9920069EFC3 /* plotdevice */; };
+		2ABDB7741867D9970069EFC3 /* plotdevice in Copy 'plotdevice' and 'bplotdevice' Tools */ = {isa = PBXBuildFile; fileRef = 2ABDB7721867D9920069EFC3 /* plotdevice */; };
 		611CC49810BA8B9E00B55455 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 611CC48110BA8B9E00B55455 /* Credits.rtf */; };
 		611CC49C10BA8B9E00B55455 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 611CC48910BA8B9E00B55455 /* InfoPlist.strings */; };
 		611CC4A110BA8B9E00B55455 /* PlotDevice.icns in Resources */ = {isa = PBXBuildFile; fileRef = 611CC49310BA8B9E00B55455 /* PlotDevice.icns */; };
@@ -38,6 +38,8 @@
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		CF0CB1E21975B76A00511DC8 /* plotdevice-term.py in Resources */ = {isa = PBXBuildFile; fileRef = CF0CB1E11975B76A00511DC8 /* plotdevice-term.py */; };
 		CF29B4BE196C51B70092593E /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF29B4BC196C51410092593E /* Python.framework */; };
+		CFA6011D1977493700D8E07B /* bplotdevice in Resources */ = {isa = PBXBuildFile; fileRef = CFA6011C1977493700D8E07B /* bplotdevice */; };
+		CFA6011E1977494500D8E07B /* bplotdevice in Copy 'plotdevice' and 'bplotdevice' Tools */ = {isa = PBXBuildFile; fileRef = CFA6011C1977493700D8E07B /* bplotdevice */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -69,15 +71,16 @@
 			name = "Copy Editor Scripts";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2ABDB76F1867D9560069EFC3 /* Copy 'plotdevice' Tool */ = {
+		2ABDB76F1867D9560069EFC3 /* Copy 'plotdevice' and 'bplotdevice' Tools */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 12;
 			files = (
-				2ABDB7741867D9970069EFC3 /* plotdevice in Copy 'plotdevice' Tool */,
+				CFA6011E1977494500D8E07B /* bplotdevice in Copy 'plotdevice' and 'bplotdevice' Tools */,
+				2ABDB7741867D9970069EFC3 /* plotdevice in Copy 'plotdevice' and 'bplotdevice' Tools */,
 			);
-			name = "Copy 'plotdevice' Tool";
+			name = "Copy 'plotdevice' and 'bplotdevice' Tools";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -156,6 +159,7 @@
 		CF1C6CCF1975E87800C6C330 /* required-wheels.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "required-wheels.txt"; sourceTree = "<group>"; };
 		CF29B4BC196C51410092593E /* Python.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python.framework; path = /usr/local/Cellar/python/2.7.8/Frameworks/Python.framework; sourceTree = "<absolute>"; };
 		CF61A9FF196DF61600BDFF1D /* relpath.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = relpath.sh; sourceTree = "<group>"; };
+		CFA6011C1977493700D8E07B /* bplotdevice */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = bplotdevice; path = app/bplotdevice; sourceTree = "<group>"; };
 		CFC5106C197545210046C918 /* urlcache.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = urlcache.sh; sourceTree = "<group>"; };
 		CFC5106D197545210046C918 /* download.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = download.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -257,6 +261,7 @@
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				CFA6011C1977493700D8E07B /* bplotdevice */,
 				CF0CB1E11975B76A00511DC8 /* plotdevice-term.py */,
 				2ABDB7671867D8160069EFC3 /* plotdevice-app.py */,
 				2ABDB7681867D8160069EFC3 /* main.m */,
@@ -392,7 +397,7 @@
 				2A15C43718A20929006BDFF0 /* Copy Editor Assets */,
 				2A66ECEA18A99303002903DE /* Copy Editor Scripts */,
 				2A758E411957B7CE003ECF9D /* Copy PlotDevice Module */,
-				2ABDB76F1867D9560069EFC3 /* Copy 'plotdevice' Tool */,
+				2ABDB76F1867D9560069EFC3 /* Copy 'plotdevice' and 'bplotdevice' Tools */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
 				CFC51073197545B90046C918 /* Install Wheelhouse Packages to App Bundle */,
@@ -449,6 +454,7 @@
 				611CC5A810BA919A00B55455 /* PlotDevicePreferences.xib in Resources */,
 				611CC68010BAA08300B55455 /* MainMenu.xib in Resources */,
 				611CC68710BAA0A600B55455 /* AskString.xib in Resources */,
+				CFA6011D1977493700D8E07B /* bplotdevice in Resources */,
 				2A7AF5C818D2AFAA00F8FFC2 /* examples in Resources */,
 				6155D9F413E2B79E00675A92 /* CHANGES.md in Resources */,
 				6155D9F513E2B79E00675A92 /* README.md in Resources */,

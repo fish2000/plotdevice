@@ -123,7 +123,7 @@ class PlotDeviceAppDelegate(NSObject):
         TerminalApp = SBApplication.applicationWithBundleIdentifier_("com.apple.Terminal")
         bundlePath = NSBundle.mainBundle().bundlePath()
         scriptPythonPath = ":".join(sys.path)
-        scriptBPythonExecutable = "%s/Contents/SharedSupport/bpython" % bundlePath
+        scriptBPythonExecutable = "%s/Contents/SharedSupport/bplotdevice" % bundlePath
         scriptBPythonSetup = "%s/Contents/Resources/plotdevice-term.py" % bundlePath
         scriptCommand = '''cd %s && PYTHONPATH="%s" %s -i %s && exit''' % (
             bundlePath, scriptPythonPath, scriptBPythonExecutable, scriptBPythonSetup)

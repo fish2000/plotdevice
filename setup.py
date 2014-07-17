@@ -23,7 +23,6 @@
 import sys, os, urllib2, plistlib
 from distutils.dir_util import remove_tree
 from distutils.spawn import find_executable as which
-from distutils.file_util import write_file as write
 from setuptools import setup, find_packages
 from pkg_resources import DistributionNotFound
 from os import listdir, getcwd
@@ -243,11 +242,9 @@ class WheelhouseToApp(Command):
             print "ERROR: install `wheel` to enable bundle-local PyObjC"
             return False
         
-        #WHEELHOUSE = join('cache', 'wheelhouse')
         WHEELHOUSE = self.wheelhouse
         APP = self.app
         DITTO = which('ditto')
-        PYTHON = which('python')
         
         if not isdir(WHEELHOUSE):
             print "ERROR: no wheelhouse directory at %s" % WHEELHOUSE
@@ -291,20 +288,6 @@ class WheelhouseToApp(Command):
         self.spawn(['touch',
             join(SITE_PACKAGES, 'PyObjC', 'PyObjCTools', '__init__.py')])
         
-        bpython_script_src = """#!%(python)s
-# EASY-INSTALL-ENTRY-SCRIPT: 'bpython==0.13','console_scripts','bpython'
-__requires__ = 'bpython==0.13'
-import sys
-from pkg_resources import load_entry_point
-
-if __name__ == '__main__':
-    sys.exit(
-        load_entry_point('bpython==0.13', 'console_scripts', 'bpython')()
-    )
-""" % dict(python=PYTHON)
-        bpython_script = join(SCRIPTS, 'bpython')
-        write(bpython_script, bpython_script_src.split('\n'))
-        self.spawn(['chmod', '+x', bpython_script])
         return True
 
 from setuptools.command.sdist import sdist
@@ -395,8 +378,9 @@ try:
             os.unlink(join(RSRC, 'include'))
             os.unlink(join(RSRC, 'site.pyc'))
 
-            # place the command line tool in SharedSupport
+            # place the command line tools in SharedSupport
             self.copy_file("app/plotdevice", BIN)
+            self.copy_file("app/bplotdevice", BIN)
 
             for cmd in self.get_sub_commands():
                 self.run_command(cmd)
@@ -535,7 +519,9 @@ if __name__ == '__main__':
         license=LICENSE,
         classifiers=CLASSIFIERS,
         packages=find_packages(),
-        scripts=["app/plotdevice"],
+        scripts=[
+            "app/plotdevice",
+            "app/bplotdevice"],
         setup_requires=['wheel>=0.24.0'],
         zip_safe=False,
         cmdclass={

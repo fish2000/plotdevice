@@ -9,8 +9,3 @@ from PyObjCTools import AppHelper
 from plotdevice.gui import ScriptController
 from plotdevice.util import rsrc_path
 from plotdevice.run import encoding
-
-
-#if __name__ == '__main__':
-#    from bpython.cli import main
-#    sys.exit(main())
