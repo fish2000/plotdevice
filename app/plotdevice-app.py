@@ -1,11 +1,21 @@
 
 import sys
-from os.path import isdir
+from os import environ as env
+from os.path import isdir, join
 
 # if there's a python in /usr/local, it's probably homebrew -- let's use it!
 local_packages = '/usr/local/lib/python2.7/site-packages'
 if isdir(local_packages):
     sys.path.append(local_packages)
+
+# If running from a py2app build, update sys.path
+# with the bundle-local python package directory
+RESOURCEPATH = env.get('RESOURCEPATH')
+if RESOURCEPATH:
+    sys.path.insert(0,
+        join(RESOURCEPATH, 'python'))
+    sys.path.insert(0,
+        join(RESOURCEPATH, 'python', 'PyObjC'))
 
 # remove dupes from sys.path -- for an explanation see:
 # http://stackoverflow.com/a/480227/298171

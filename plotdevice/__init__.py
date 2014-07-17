@@ -19,10 +19,21 @@ All rights reserved.
 MIT Licensed (see README file for details)
 """
 
+# Add the shared directory (for Libraries) to the path
+import sys, re
+from os import getenv, environ as env
+from os.path import join
+sys.path.append(
+    join(getenv('HOME'), 'Library', 'Application Support', 'PlotDevice'))
 
-# add the shared directory (for Libraries) to the path
-import sys, re, os
-sys.path.append(os.path.join(os.getenv('HOME'), 'Library', 'Application Support', 'PlotDevice'))
+# If running from a py2app build, update sys.path
+# with the bundle-local python package directory
+RESOURCEPATH = env.get('RESOURCEPATH')
+if RESOURCEPATH:
+    sys.path.insert(0,
+        join(RESOURCEPATH, 'python'))
+    sys.path.insert(0,
+        join(RESOURCEPATH, 'python', 'PyObjC'))
 
 # the global non-conflicting token (fingers crossed)
 INTERNAL = '_p_l_o_t_d_e_v_i_c_e_'
@@ -50,6 +61,11 @@ else:
     try:
         import objc
     except ImportError:
+        from pprint import pformat
+        with open("/tmp/plotdevice-panic.log", "w+b") as log:
+            log.write("ENV:\n")
+            log.writelines(pformat(dict(env)).split('\n'))
+            log.flush()
         #extras = '/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python'
         extras = sys.prefix
         sys.path.extend([extras, '%s/PyObjC'%extras])
