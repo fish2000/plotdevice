@@ -23,6 +23,9 @@
 import sys, os, urllib2, plistlib
 from distutils.dir_util import remove_tree
 from distutils.spawn import find_executable as which
+from distutils.core import Command
+from setuptools.command.sdist import sdist
+from distutils.command.build_py import build_py
 from setuptools import setup, find_packages
 from pkg_resources import DistributionNotFound
 from os import listdir, getcwd
@@ -178,11 +181,8 @@ def merged_feed(new_release):
         spliced.append(line)
     return (u"\n".join(spliced)).encode('utf-8')
 
-
-
 ## Build Commands ##
 
-from distutils.core import Command
 class CleanCommand(Command):
     description = "wipe out the ./build ./dist and app/deps/.../build dirs"
     user_options = []
@@ -280,8 +280,7 @@ class WheelhouseToApp(Command):
             wheel = WheelFile(join(WHEELHOUSE, wheel_file))
             wheel.install(overrides=OVERRIDES, force=True)
         
-        # misc. patching (this should obvi be in pyobjc-patch-wheelhouse.sh
-        # ... or better yet fixed in the fucking upstream repository)
+        # misc. PyObjC patching (ideally should obvi be fixed in the upstream repository)
         self.spawn([DITTO,
             join(SITE_PACKAGES, 'PyObjCTools'),
             join(SITE_PACKAGES, 'PyObjC', 'PyObjCTools')])
@@ -290,7 +289,6 @@ class WheelhouseToApp(Command):
         
         return True
 
-from setuptools.command.sdist import sdist
 class BuildDistCommand(sdist):
     def finalize_options(self):
         with file('MANIFEST.in','w') as f:
@@ -307,7 +305,6 @@ class BuildDistCommand(sdist):
         remove_tree('plotdevice.egg-info')
         os.unlink('MANIFEST.in')
 
-from distutils.command.build_py import build_py
 class BuildCommand(build_py):
     def run(self):
         # first let the real build_py routine do its thing
@@ -349,7 +346,6 @@ try:
         sub_commands.append(('wheelhouse', lambda arg: True))
         
         def run(self):
-            #assert os.getcwd() == self.cwd, 'Must be in package root: %s' % self.cwd
             build_py2app.run(self)
             if self.dry_run:
                 return
@@ -536,11 +532,6 @@ if __name__ == '__main__':
         })
 
     # py2app-specific config 
-    # Note how we're not adding the GPUImage framework here,
-    # despite what the paltry docs available, as regards
-    # the subject of py2app and framework-addery,
-    # seem to suggest -- we do it ourselves when executing
-    # the BuildPy2AppCommand stuff.
     if 'py2app' in sys.argv:
         config.update(dict(
             app=[{

@@ -21,48 +21,45 @@ PYOBJC_VIRTUALENV="build/pyobjc-virtualenv-${PYOBJC_VERSION}"
 rm -rf $PYOBJC_BUILD_PATH $PYOBJC_VIRTUALENV
 fetch_and_expand $PYOBJC_DOWNLOAD_URL $PYOBJC_BUILD_PATH
 
-declare -a names=("AppleScriptKit" \
-"Accounts" \
-"AddressBook" \
-"AppleScriptKit" \
-"AppleScriptObjC" \
-"Automator" \
+declare -a names=( \
+#"AppleScriptKit" \
+#"Accounts" \
+#"AddressBook" \
+#"AppleScriptKit" \
+#"AppleScriptObjC" \
+#"Automator" \
 "CFNetwork" \
-"CalendarStore" \
+#"CalendarStore" \
 "Cocoa" \
-"Collaboration" \
+#"Collaboration" \
 "CoreData" \
-"CoreLocation" \
+#"CoreLocation" \
 "CoreText" \
-#"CoreWLAN" \
 "DictionaryServices" \
-#"DiskArbitration" \
-"EventKit" \
+#"EventKit" \
 "ExceptionHandling" \
 "FSEvents" \
-"InputMethodKit" \
-"InstallerPlugins" \
-"InstantMessage" \
+#"InputMethodKit" \
+#"InstallerPlugins" \
+#"InstantMessage" \
 #"InterfaceBuilderKit" \
-"LatentSemanticMapping" \
-"LaunchServices" \
-#"Message" \
-"OpenDirectory" \
-"PreferencePanes" \
-"PubSub" \
-"QTKit" \
+#"LatentSemanticMapping" \
+#"LaunchServices" \
+#"OpenDirectory" \
+#"PreferencePanes" \
+#"PubSub" \
+#"QTKit" \
 "Quartz" \
-"ScreenSaver" \
+#"ScreenSaver" \
 "ScriptingBridge" \
-"SearchKit" \
-"ServerNotification" \
-"ServiceManagement" \
-"Social" \
-#"StoreKit" \
+#"SearchKit" \
+#"ServerNotification" \
+#"ServiceManagement" \
+#"Social" \
 "SyncServices" \
 "SystemConfiguration" \
-"WebKit")
-#"XgridFoundation")
+"WebKit" \
+)
 
 PYOBJC_DIR=${PLOTDEVICE}/$PYOBJC_BUILD_PATH
 FIND="for fn in install_lib._install_lib.get_outputs(self):"
