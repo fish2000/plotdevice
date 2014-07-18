@@ -7,5 +7,5 @@
 #endif
 
 #ifndef PLOTDEVICE_PYTHON
-    #define PLOTDEVICE_PYTHON "/usr/local/bin/python"
+    #define PLOTDEVICE_PYTHON "/usr/bin/python"
 #endif

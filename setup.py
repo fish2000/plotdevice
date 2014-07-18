@@ -262,7 +262,7 @@ class WheelhouseToApp(Command):
         CONTENTS = join(APP, 'Contents')
         RESOURCES = join(CONTENTS, 'Resources')
         SITE_PACKAGES = join(RESOURCES, 'python')
-        HEADERS = join(RESOURCES, 'Headers') # wat
+        HEADERS = join(CONTENTS, 'PrivateHeaders')
         SCRIPTS = join(CONTENTS, 'SharedSupport')
         OVERRIDES = dict(
             purelib=SITE_PACKAGES, platlib=SITE_PACKAGES, data=SITE_PACKAGES,

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # EASY-INSTALL-ENTRY-SCRIPT: 'bpython==0.13','console_scripts','bpython'
 __requires__ = 'bpython==0.13'
 import sys

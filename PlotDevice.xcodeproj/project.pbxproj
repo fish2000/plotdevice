@@ -37,9 +37,9 @@
 		6155D9F513E2B79E00675A92 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 6155D9F313E2B79E00675A92 /* README.md */; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		CF0CB1E21975B76A00511DC8 /* plotdevice-term.py in Resources */ = {isa = PBXBuildFile; fileRef = CF0CB1E11975B76A00511DC8 /* plotdevice-term.py */; };
-		CF29B4BE196C51B70092593E /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF29B4BC196C51410092593E /* Python.framework */; };
 		CFA6011D1977493700D8E07B /* bplotdevice in Resources */ = {isa = PBXBuildFile; fileRef = CFA6011C1977493700D8E07B /* bplotdevice */; };
 		CFA6011E1977494500D8E07B /* bplotdevice in Copy 'plotdevice' and 'bplotdevice' Tools */ = {isa = PBXBuildFile; fileRef = CFA6011C1977493700D8E07B /* bplotdevice */; };
+		CFF01E861979B49F00907EEA /* Python in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF01E851979B49F00907EEA /* Python */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -157,11 +157,11 @@
 		CF0CB1E11975B76A00511DC8 /* plotdevice-term.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = "plotdevice-term.py"; path = "app/plotdevice-term.py"; sourceTree = "<group>"; };
 		CF1C6CCE1975E87800C6C330 /* load-cache.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "load-cache.sh"; sourceTree = "<group>"; };
 		CF1C6CCF1975E87800C6C330 /* required-wheels.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "required-wheels.txt"; sourceTree = "<group>"; };
-		CF29B4BC196C51410092593E /* Python.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python.framework; path = /usr/local/Cellar/python/2.7.8/Frameworks/Python.framework; sourceTree = "<absolute>"; };
 		CF61A9FF196DF61600BDFF1D /* relpath.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = relpath.sh; sourceTree = "<group>"; };
 		CFA6011C1977493700D8E07B /* bplotdevice */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = bplotdevice; path = app/bplotdevice; sourceTree = "<group>"; };
 		CFC5106C197545210046C918 /* urlcache.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = urlcache.sh; sourceTree = "<group>"; };
 		CFC5106D197545210046C918 /* download.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = download.sh; sourceTree = "<group>"; };
+		CFF01E851979B49F00907EEA /* Python */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = Python; path = /System/Library/Frameworks/Python.framework/Versions/2.7/Python; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,7 +169,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF29B4BE196C51B70092593E /* Python.framework in Frameworks */,
+				CFF01E861979B49F00907EEA /* Python in Frameworks */,
 				2ABBB2FC18540246001C4E0A /* CoreVideo.framework in Frameworks */,
 				2ABBB2FE185402AC001C4E0A /* CoreMedia.framework in Frameworks */,
 				2ABBB2FA1854018B001C4E0A /* AVFoundation.framework in Frameworks */,
@@ -185,7 +185,6 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CF29B4BC196C51410092593E /* Python.framework */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -294,6 +293,7 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CFF01E851979B49F00907EEA /* Python */,
 				2AEE843D18B5603900CF91D4 /* CoreText.framework */,
 				2A15C42C18A1FA14006BDFF0 /* WebKit.framework */,
 				2A591FEF185C17D200D1833D /* Security.framework */,
@@ -580,18 +580,13 @@
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = dist;
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/app/Frameworks",
-					/usr/local/Cellar/python/2.7.8/Frameworks,
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -599,12 +594,12 @@
 				GCC_PREFIX_HEADER = app/PlotDevice_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/opt/python/Frameworks/Python.framework/Headers,
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/include/python2.7,
 				);
 				INFOPLIST_FILE = "app/PlotDevice-Info.plist";
 				INSTALL_PATH = /Applications;
-				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/python/2.7.8/Frameworks/Python.framework/Versions/2.7;
+				LIBRARY_SEARCH_PATHS = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Python.framework/Versions/2.7";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
@@ -617,29 +612,24 @@
 		C05733C908A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = dist;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/app/Frameworks",
-					/usr/local/Cellar/python/2.7.8/Frameworks,
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = app/PlotDevice_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/opt/python/Frameworks/Python.framework/Headers,
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/include/python2.7,
 				);
 				INFOPLIST_FILE = "app/PlotDevice-Info.plist";
 				INSTALL_PATH = /Applications;
-				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/python/2.7.8/Frameworks/Python.framework/Versions/2.7;
+				LIBRARY_SEARCH_PATHS = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Python.framework/Versions/2.7";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
@@ -654,7 +644,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "";
-				FRAMEWORK_SEARCH_PATHS = /Users/fish/Dropbox/plotdevice/app/Frameworks;
+				FRAMEWORK_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = PlotDevice;
@@ -669,7 +659,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "";
-				FRAMEWORK_SEARCH_PATHS = /Users/fish/Dropbox/plotdevice/app/Frameworks;
+				FRAMEWORK_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = PlotDevice;

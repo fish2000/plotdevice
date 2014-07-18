@@ -4,9 +4,9 @@ from os import environ as env
 from os.path import isdir, join
 
 # if there's a python in /usr/local, it's probably homebrew -- let's use it!
-local_packages = '/usr/local/lib/python2.7/site-packages'
-if isdir(local_packages):
-    sys.path.append(local_packages)
+#local_packages = '/usr/local/lib/python2.7/site-packages'
+#if isdir(local_packages):
+#    sys.path.append(local_packages)
 
 # If running from a py2app build, update sys.path
 # with the bundle-local python package directory

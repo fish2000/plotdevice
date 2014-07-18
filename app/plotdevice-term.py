@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # encoding: utf-8
 
 import plotdevice # adds pyobjc to sys.path as a side effect...

@@ -58,7 +58,7 @@ import argparse
 import json
 import signal
 from subprocess import Popen, PIPE
-from distutils.spawn import find_executable as which
+#from distutils.spawn import find_executable as which
 from os.path import exists, islink, dirname, abspath, realpath, join
 
 def parse_args():
@@ -163,6 +163,7 @@ def main():
   opts = parse_args()
   root = module_root()
   env = dict(os.environ)
+  PYTHON = "/usr/bin/python" # run the backend with the system python
 
   # install a signal handler to catch ^c
   def cancel(*args):
@@ -175,7 +176,7 @@ def main():
   py_path.insert(0, root)
   env['PYTHONPATH'] = ":".join(py_path)
   script = join(root, 'plotdevice/run/console.py')
-  p = Popen([which('python'), script], env=env, stdin=PIPE)
+  p = Popen([PYTHON, script], env=env, stdin=PIPE)
   p.stdin.write(json.dumps(vars(opts))+"\n")
   p.wait()
 
