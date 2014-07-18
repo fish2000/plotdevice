@@ -230,16 +230,16 @@ class WheelhouseToApp(Command):
         self.app = abspath(self.app)
     
     def run(self):
-        ''' install wheels to app bundle '''
-        self.install_wheels()
-        print "done installing wheels"
+        ''' try to install wheels to app bundle '''
+        if self.install_wheels():
+            print "Done installing wheels"
     
     def install_wheels(self):
         ''' Install everything from the wheelhouse '''
         try:
             from wheel.install import WheelFile
         except ImportError:
-            print "ERROR: install `wheel` to enable bundle-local PyObjC"
+            print "ERROR: install the `wheel` Python package to enable bundle-local PyObjC"
             return False
         
         WHEELHOUSE = self.wheelhouse
