@@ -1,7 +1,8 @@
 # encoding: utf-8
 import sys
-import os
 import objc
+from os import mkdir, getenv
+from os.path import join, exists, basename, dirname
 from glob import glob
 from Foundation import *
 from AppKit import *
@@ -20,18 +21,18 @@ class PlotDeviceAppDelegate(NSObject):
     def awakeFromNib(self):
         self._prefsController = None
         self._docsController = NSDocumentController.sharedDocumentController()
-        libDir = os.path.join(os.getenv("HOME"), "Library", "Application Support", "PlotDevice")
+        libDir = join(getenv("HOME"), "Library", "Application Support", "PlotDevice")
         try:
-            if not os.path.exists(libDir):
-                os.mkdir(libDir)
-                f = open(os.path.join(libDir, "README.txt"), "w")
+            if not exists(libDir):
+                mkdir(libDir)
+                f = open(join(libDir, "README.txt"), "w")
                 f.write(LIB_DIR_README)
                 f.close()
         except OSError: pass
         except IOError: pass
 
     def applicationDidFinishLaunching_(self, note):
-        mm=NSApp().mainMenu()
+        mm = NSApp().mainMenu()
 
         # disable the start-dictation item in the edit menu
         edmenu = mm.itemAtIndex_(2).submenu()
@@ -50,7 +51,7 @@ class PlotDeviceAppDelegate(NSObject):
         # If the sparkle framework was installed in our bundle, init an updater
         self.sparkle = None
         sparkle_path = bundle_path(fmwk='Sparkle')
-        if os.path.exists(sparkle_path):
+        if exists(sparkle_path):
             objc.loadBundle('Sparkle', globals(), bundle_path=sparkle_path)
             self.sparkle = objc.lookUpClass('SUUpdater').sharedUpdater()
             self.updatesMenu.setTarget_(self.sparkle)
@@ -64,15 +65,15 @@ class PlotDeviceAppDelegate(NSObject):
 
     def updateExamples(self):
         examples_folder = bundle_path(rsrc="examples")
-        pyfiles = glob('%s/*/*.pv'%examples_folder)
+        pyfiles = glob('%s/*/*.pv' % examples_folder)
         categories = self.examplesMenu.submenu()
         folders = {}
         for item in categories.itemArray():
             item.submenu().removeAllItems()
             folders[item.title()] = item.submenu()
         for fn in sorted(pyfiles):
-            cat = os.path.basename(os.path.dirname(fn))
-            example = os.path.basename(fn)
+            cat = basename(dirname(fn))
+            example = basename(fn)
             item = NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(example[:-3], "openExample:", "")
             item.setRepresentedObject_(fn)
             folders[cat].addItem_(item)
@@ -119,14 +120,12 @@ class PlotDeviceAppDelegate(NSObject):
     def openTerminal_(self, sender):
         """ Open a Terminal.app window running bpython,
             with the PlotDevice.app environment pre-loaded """
-        # TODO: Bring new Terminal.app window to the fore
         TerminalApp = SBApplication.applicationWithBundleIdentifier_("com.apple.Terminal")
-        bundlePath = NSBundle.mainBundle().bundlePath()
         scriptPythonPath = ":".join(sys.path)
-        scriptBPythonExecutable = "%s/Contents/SharedSupport/bplotdevice" % bundlePath
-        scriptBPythonSetup = "%s/Contents/Resources/plotdevice-term.py" % bundlePath
+        scriptBPythonExecutable = bundle_path(shared='bplotdevice')
+        scriptBPythonSetup = bundle_path(rsrc='plotdevice-term.py')
         scriptCommand = '''cd %s && PYTHONPATH="%s" %s -i %s && exit''' % (
-            bundlePath, scriptPythonPath, scriptBPythonExecutable, scriptBPythonSetup)
+            bundle_path(), scriptPythonPath, scriptBPythonExecutable, scriptBPythonSetup)
         TerminalApp.activate()
         TerminalApp.doScript_in_(scriptCommand, None)
 

@@ -1,8 +1,10 @@
-def bundle_path(subpath=None, rsrc=None, fmwk=None):
+def bundle_path(subpath=None, rsrc=None, fmwk=None, shared=None):
     """Find the path to the main NSBundle (or an optional subpath within it)"""
     from os.path import join
     from Foundation import NSBundle
     bundle = NSBundle.mainBundle().bundlePath()
+    if shared:
+      return join(bundle, "Contents", "SharedSupport", shared)
     if rsrc:
       return join(bundle, "Contents", "Resources", rsrc)
     if fmwk:
