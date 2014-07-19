@@ -36,6 +36,14 @@ def _cg_layer():
 def _cg_port():
     return NSGraphicsContext.currentContext().graphicsPort()
 
+@contextmanager
+def _ci_context():
+    ctx = NSGraphicsContext.currentContext()
+    ctx.saveGraphicsState()
+    #yield CIContext.contextWithCGContext_options_(_cg_port(), None)
+    yield ctx.CIContext()
+    ctx.restoreGraphicsState()
+
 ### submodule init ###
 
 # pool the submodules' __all__ namespaces into our own
