@@ -127,6 +127,7 @@ class PlotDeviceAppDelegate(NSObject):
         scriptBPythonSetup = "%s/Contents/Resources/plotdevice-term.py" % bundlePath
         scriptCommand = '''cd %s && PYTHONPATH="%s" %s -i %s && exit''' % (
             bundlePath, scriptPythonPath, scriptBPythonExecutable, scriptBPythonSetup)
+        TerminalApp.activate()
         TerminalApp.doScript_in_(scriptCommand, None)
 
     def applicationWillTerminate_(self, note):

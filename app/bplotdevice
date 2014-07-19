@@ -1,14 +1,4 @@
 #!/usr/bin/python
-# EASY-INSTALL-ENTRY-SCRIPT: 'bpython==0.13','console_scripts','bpython'
-__requires__ = 'bpython==0.13'
 import sys
-from pkg_resources import load_entry_point
-
-if __name__ == '__main__':
-    sys.exit(
-        load_entry_point('bpython==0.13', 'console_scripts', 'bpython')()
-    )
-
-#if __name__ == '__main__':
-#    from bpython.cli import main
-#    sys.exit(main())
+from bpython.cli import main
+sys.exit(main())
