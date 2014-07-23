@@ -249,7 +249,10 @@ class adict(BetterRepr, dict):
         # this test allows attributes to be set in the __init__ method
         if not self.__dict__.has_key('_adict__initialised'):
             return dict.__setattr__(self, key, value)
-        self[key] = value
+        if key == "_keys":
+            adict.__setattr__(self, key, value)
+        else:
+            self[key] = value
 
     def __delattr__(self, key):
         try:
@@ -257,7 +260,7 @@ class adict(BetterRepr, dict):
         except KeyError, k:
             raise AttributeError, k
 
-class aodict(BetterRepr, adict, OrderedDict):
+class aodict(adict, odict):
     """
     aodict -- an OrderedDict subclass that works like adict.
     
@@ -265,14 +268,7 @@ class aodict(BetterRepr, adict, OrderedDict):
     the reimplementation in ordereddict.py, if your python install is lacking.
     
     """
-    def __init__(self, *args, **kwargs):
-        OrderedDict.__init__(self, *args, **kwargs)
-
-    def __setattr__(self, key, value):
-        if key == "_keys":
-            adict.__setattr__(self, key, value)
-        else:
-            self[key] = value
+    pass
 
 
 ### datafile unpackers ###
