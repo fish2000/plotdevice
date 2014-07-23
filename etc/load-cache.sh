@@ -82,13 +82,12 @@ find $PYOBJC_DIR -name \*.py~ -print -delete
 
 ########## VIRTUALENV INSTALLATION (NECESSARY FOR EXTENSION BUILDING) ######################
 
-virtualenv -v -p `which python` $PYOBJC_VIRTUALENV
+virtualenv -p `which python` $PYOBJC_VIRTUALENV
 source $PYOBJC_VIRTUALENV/bin/activate
 cd $PYOBJC_DIR/pyobjc-core && pip install --no-deps .
 
 ########## WHEELHOUSE: PYOBJC ##############################################################
 
-#pip install -U wheel
 cd $PYOBJC_DIR/pyobjc-core && pip wheel --no-deps -w $WHEELHOUSE .
 cd $PYOBJC_DIR/pyobjc && pip wheel --no-deps -w $WHEELHOUSE .
 
