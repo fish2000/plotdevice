@@ -357,3 +357,18 @@ def rsrc_path(resource=None):
     if resource:
         return join(rsrc_root, resource)
     return rsrc_root
+
+### display color profile ###
+
+def get_display_profile_path():
+    if not hasattr(get_display_profile_path, 'profile_path'):
+        import objc
+        from ScriptingBridge import SBApplication
+        ImageEvents = SBApplication.applicationWithBundleIdentifier_('com.apple.ImageEvents')
+        #ImageEvents.activate()
+        displays = ImageEvents.displays()
+        if len(displays) < 1:
+            get_display_profile_path.profile_path = None
+        get_display_profile_path.profile_path = displays[0].displayProfile().location().properties()['POSIXPath']
+        ImageEvents.quitSaving_(objc.NO)
+    return get_display_profile_path.profile_path
