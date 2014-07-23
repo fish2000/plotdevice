@@ -191,7 +191,7 @@ class BetterRepr(object):
         result += '}'
         return result
 
-class odict(BetterRepr,OrderedDict):
+class odict(BetterRepr, OrderedDict):
     """Dictionary that remembers insertion order
 
     Normal dict objects return keys in an arbitrary order. An odict will return them in
@@ -207,7 +207,7 @@ class odict(BetterRepr,OrderedDict):
     """
     pass
 
-class ddict(BetterRepr,defaultdict):
+class ddict(BetterRepr, defaultdict):
     """Dictionary with default factory
 
     Any time you access a key that was previously undefined, the factory function
@@ -256,6 +256,23 @@ class adict(BetterRepr, dict):
             del self[key]
         except KeyError, k:
             raise AttributeError, k
+
+class aodict(BetterRepr, adict, OrderedDict):
+    """
+    aodict -- an OrderedDict subclass that works like adict.
+    
+    The 'O' in 'AODict' is for 'Ordered' -- see the stdlib OrderedDict for deets, or refer to
+    the reimplementation in ordereddict.py, if your python install is lacking.
+    
+    """
+    def __init__(self, *args, **kwargs):
+        OrderedDict.__init__(self, *args, **kwargs)
+
+    def __setattr__(self, key, value):
+        if key == "_keys":
+            adict.__setattr__(self, key, value)
+        else:
+            self[key] = value
 
 
 ### datafile unpackers ###
