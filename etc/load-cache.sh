@@ -4,7 +4,7 @@ SCRIPT_DIR="$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)" # http://stackoverflow.c
 PLOTDEVICE=`dirname $SCRIPT_DIR`
 cd $PLOTDEVICE
 
-PRAXA_DOWNLOAD_CACHE="cache/downloads"
+PRAXA_DOWNLOAD_CACHE="${PLOTDEVICE}/cache/downloads"
 WHEELHOUSE="${PLOTDEVICE}/cache/wheelhouse"
 mkdir -p $PRAXA_DOWNLOAD_CACHE
 mkdir -p $WHEELHOUSE
@@ -56,8 +56,8 @@ declare -a names=( \
 #"ServerNotification" \
 #"ServiceManagement" \
 #"Social" \
-"SyncServices" \
-"SystemConfiguration" \
+#"SyncServices" \
+#"SystemConfiguration" \
 "WebKit" \
 )
 
@@ -80,29 +80,26 @@ done
 
 find $PYOBJC_DIR -name \*.py~ -print -delete
 
-########## LOCAL INSTALL ###################################################################
+########## VIRTUALENV INSTALLATION (NECESSARY FOR EXTENSION BUILDING) ######################
 
 virtualenv -v -p `which python` $PYOBJC_VIRTUALENV
 source $PYOBJC_VIRTUALENV/bin/activate
-
-cd $PYOBJC_DIR/pyobjc-core && pip install --verbose --no-deps .
-cd $PYOBJC_DIR/pyobjc && pip install --verbose .
+cd $PYOBJC_DIR/pyobjc-core && pip install --no-deps .
 
 ########## WHEELHOUSE: PYOBJC ##############################################################
 
-pip install -U wheel
-
-cd $PYOBJC_DIR/pyobjc-core && pip wheel --verbose --no-deps -w $WHEELHOUSE .
-cd $PYOBJC_DIR/pyobjc && pip wheel --verbose --no-deps -w $WHEELHOUSE .
+#pip install -U wheel
+cd $PYOBJC_DIR/pyobjc-core && pip wheel --no-deps -w $WHEELHOUSE .
+cd $PYOBJC_DIR/pyobjc && pip wheel --no-deps -w $WHEELHOUSE .
 
 for name in "${names[@]}"; do
     cd $PYOBJC_DIR && \
     cd "pyobjc-framework-${name}" && \
-    pip wheel --verbose --no-deps -w $WHEELHOUSE .
+    pip wheel --no-deps -w $WHEELHOUSE .
 done
 
 ########## WHEELHOUSE: OTHER ###############################################################
 
 cd $PLOTDEVICE
-pip wheel --verbose -w $WHEELHOUSE -r "${SCRIPT_DIR}/required-wheels.txt"
+pip wheel -w $WHEELHOUSE -r "${SCRIPT_DIR}/required-wheels.txt"
 
