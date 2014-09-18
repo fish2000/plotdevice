@@ -135,7 +135,6 @@ def gosub(cmd, on_err=True):
     if on_err:
         msg = '%s:\n' % on_err if isinstance(on_err, basestring) else ''
         assert ret==0, msg + (err or out)
-
     return out, err, ret
 
 ## Distribution Build Utils ##
